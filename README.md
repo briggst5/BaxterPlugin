@@ -10,6 +10,7 @@ Enterprise team marketplace for Baxter engineering: shared MCP servers, skills, 
 | [baxter-security](plugins/baxter-security/) | Default On/Off by SCIM group | Security review skill and agent |
 | [baxter-product-owner](plugins/baxter-product-owner/) | Default On/Off by SCIM group | FutureState SAFe PO/RTE skills, Azure DevOps MCP |
 | [baxter-polarion](plugins/baxter-polarion/) | Default On/Off by SCIM group | Standalone Polarion MCP (pair with product-owner) |
+| [baxter-flc-platform-sw](plugins/baxter-flc-platform-sw/) | Default On/Off by SCIM group | FLC platform software review skills and checklists from ai-skills |
 
 ## Quick start (local dev)
 
@@ -39,7 +40,7 @@ Reload Cursor and enable the `baxter-echo` MCP server in Settings → MCP.
 
 - Use a dedicated repo (`BaxterPlugin`) with branch protection on `main`.
 - Restrict who can edit plugin install modes in Cursor dashboard.
-- Keep optional plugins (`baxter-security`, `baxter-product-owner`, `baxter-polarion`) mapped to the right SCIM groups.
+- Keep optional plugins (`baxter-security`, `baxter-product-owner`, `baxter-polarion`, `baxter-flc-platform-sw`) mapped to the right SCIM groups.
 - Enable Auto Refresh so merged PRs propagate without manual republish.
 - Run `./scripts/validate-plugin.sh` in CI on every PR before merge.
 

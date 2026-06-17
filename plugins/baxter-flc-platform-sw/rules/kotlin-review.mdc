@@ -1,0 +1,14 @@
+---
+description: Kotlin-specific review checklists from the FLC platform software plugin
+globs: "**/*.kt"
+alwaysApply: false
+---
+
+# Kotlin review
+
+For Kotlin files, also apply:
+
+- `checklists/kotlin-coroutines-checklist.md`
+- `checklists/kotlin-dataiteration-pattern.md`
+- `checklists/kotlin-exceptionsafetyauditor.md`
+- `checklists/kotlin-zombie-checklist.md`

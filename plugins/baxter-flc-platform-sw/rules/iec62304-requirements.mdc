@@ -1,0 +1,48 @@
+---
+description: IEC 62304 Class C software requirements generation and review via Polarion MCP
+alwaysApply: false
+---
+
+# IEC 62304 Class C — Software Requirements
+
+Software requirements live in **Polarion**, not local files. When the user asks to generate, review, analyze, or trace requirements, activate this rule.
+
+## Checklist
+
+Read and apply every item in:
+
+`checklists/iec62304-requirements-checklist.md`
+
+## Polarion MCP workflow
+
+Use the Polarion MCP server to read requirements data:
+
+| Task | Tool |
+|------|------|
+| Fetch one requirement | `get_work_item` |
+| Search requirements | `query_work_items` (type=`requirement`) |
+| Review a specification document | `get_document_work_items` / `list_documents` |
+| Verify traceability | `get_work_item_links` |
+| Check review status | `list_reviewers` |
+| Post review findings | `add_work_item_comment` |
+
+**Read-only by default.** Do not call `set_work_item_status`, `add_work_item_link`, or `remove_work_item_link` unless the user explicitly requests a write.
+
+## Generation rules
+
+- One requirement = one testable behavior or constraint; use **shall** for mandatory statements
+- Include acceptance criteria and verification method for every requirement
+- Link upstream to system requirements and risk controls; plan downstream links to design and tests
+- Never embed implementation details — those belong in software detailed design (§5.4)
+
+## Review rules
+
+- Apply the checklist to each requirement; tag findings 🔴 Blocking / 🟡 Warning / 🔵 Suggestion
+- Verify traceability links in both directions before approving
+- Post structured review comments to Polarion — do not approve on the user's behalf
+- For Class C: treat missing failure-mode behavior, broken risk traceability, or untestable statements as 🔴 Blocking
+
+## Related standards
+
+- Code/PR reviews: `checklists/class-c-code-checklist.md`
+- PR traceability: `pr-review` skill (IEC 62304 §5.1)

@@ -1,0 +1,11 @@
+{
+  "name": "baxter-flc-platform-sw",
+  "description": "FLC platform software review skills, checklists, and rules vendored from ai-skills.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Baxter Engineering"
+  },
+  "license": "MIT",
+  "skills": "./skills/",
+  "rules": "./rules/"
+}

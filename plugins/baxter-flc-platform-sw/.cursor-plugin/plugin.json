@@ -1,0 +1,21 @@
+{
+  "name": "baxter-flc-platform-sw",
+  "displayName": "Baxter FLC Platform Software",
+  "version": "0.1.0",
+  "description": "FLC platform software review skills, checklists, and rules vendored from ai-skills — code review, PR review, Kotlin, IEC 62304 Class C.",
+  "author": {
+    "name": "Baxter Engineering"
+  },
+  "license": "MIT",
+  "keywords": [
+    "baxter",
+    "flc",
+    "platform",
+    "code-review",
+    "pr-review",
+    "kotlin",
+    "iec62304"
+  ],
+  "skills": "./skills/",
+  "rules": "./rules/"
+}

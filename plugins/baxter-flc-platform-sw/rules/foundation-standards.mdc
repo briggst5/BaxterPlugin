@@ -1,0 +1,16 @@
+---
+description: Points code review to shared FLC platform software checklists in this plugin
+alwaysApply: true
+---
+
+# Foundation standards
+
+This project uses the **baxter-flc-platform-sw** plugin (vendored from [ai-skills](https://dev.azure.com/FLC-NPD/Proof%20Of%20Concept/_git/ai-skills)).
+
+When reviewing code or pull requests, read checklists from:
+
+- `checklists/code-review-checklist.md`
+- `checklists/pr-review-checklist.md`
+- `checklists/class-c-code-checklist.md`
+
+Plugin skills: `code-review`, `pr-review`. Setup notes: `docs/cursor-setup.md`
