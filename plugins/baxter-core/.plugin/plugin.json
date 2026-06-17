@@ -1,0 +1,13 @@
+{
+  "name": "baxter-core",
+  "description": "Required Baxter baseline: org standards, core skills, shared MCP servers, and agents for all engineers.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Baxter Engineering"
+  },
+  "license": "MIT",
+  "skills": "./skills/",
+  "agents": "./agents/",
+  "mcpServers": "./.mcp.copilot.json",
+  "hooks": "./hooks/copilot-hooks.json"
+}

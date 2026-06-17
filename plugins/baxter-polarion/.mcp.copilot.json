@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "polarion-mcp": {
+      "command": "node",
+      "args": [
+        "${PLUGIN_ROOT}/scripts/launch-polarion-mcp.mjs"
+      ]
+    }
+  }
+}

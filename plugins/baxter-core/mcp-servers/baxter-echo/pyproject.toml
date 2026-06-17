@@ -1,0 +1,11 @@
+[project]
+name = "baxter-echo-mcp"
+version = "0.1.0"
+description = "Minimal Baxter MCP server for connectivity testing and plugin validation."
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.27,<2",
+]
+
+[project.scripts]
+baxter-echo = "server:main"

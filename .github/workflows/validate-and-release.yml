@@ -1,0 +1,33 @@
+name: Validate marketplace
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+
+      - name: Validate plugin manifests
+        run: |
+          chmod +x scripts/*.sh plugins/baxter-core/scripts/*.sh
+          ./scripts/validate-plugin.sh
+
+      - name: Smoke test Python MCP servers
+        run: |
+          for server_dir in plugins/*/mcp-servers/*/; do
+            if [[ -f "${server_dir}pyproject.toml" ]]; then
+              echo "==> Smoke test ${server_dir}"
+              uv sync --directory "${server_dir}"
+              timeout 5 uv --directory "${server_dir}" run python -c "import server; print('import ok')"
+            fi
+          done

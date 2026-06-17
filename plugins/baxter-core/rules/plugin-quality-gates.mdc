@@ -1,0 +1,15 @@
+---
+description: Plugin authoring quality gates when editing Baxter marketplace plugins.
+globs: plugins/**/*
+alwaysApply: false
+---
+
+# Baxter plugin quality gates
+
+When creating or editing plugins in this marketplace:
+
+1. Keep paths relative within the plugin directory; no absolute paths or `..` traversal.
+2. Match declared manifest paths to real files and folders.
+3. Include YAML frontmatter on skills, rules, and agents with required metadata.
+4. Python MCP servers must use `uv run` via `scripts/run-mcp-server.sh`, not bare `python`.
+5. Bump `version` in plugin manifests when releasing changes.

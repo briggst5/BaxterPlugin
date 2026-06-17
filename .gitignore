@@ -1,0 +1,10 @@
+.sync-workdir/
+__pycache__/
+*.py[cod]
+.venv/
+.venv-baxter/
+.baxter-bootstrap-complete
+plugins/**/mcp-servers/**/build/
+.env
+.env.*
+!.env.example

@@ -1,0 +1,314 @@
+{
+  "wiki_id": "beee7a67-95b1-4a9c-a188-c1fc5589d6b7",
+  "project": "FutureState",
+  "organization": "FLC-NPD",
+  "last_sync": "2026-06-10T22:37:48.554882+00:00",
+  "page_count": 61,
+  "pages": [
+    {
+      "path": "/",
+      "id": null,
+      "local": "home.md"
+    },
+    {
+      "path": "/Administrivia",
+      "id": null,
+      "local": "administrivia.md"
+    },
+    {
+      "path": "/Administrivia/Platform Artwork",
+      "id": null,
+      "local": "administrivia/platform-artwork.md"
+    },
+    {
+      "path": "/Administrivia/Shared FLC Platform Inbox",
+      "id": null,
+      "local": "administrivia/shared-flc-platform-inbox.md"
+    },
+    {
+      "path": "/Agile Practices",
+      "id": null,
+      "local": "agile-practices.md"
+    },
+    {
+      "path": "/Agile Practices/Agile Glossary",
+      "id": null,
+      "local": "agile-practices/agile-glossary.md"
+    },
+    {
+      "path": "/Agile Practices/Guide to Writing User Stories",
+      "id": null,
+      "local": "agile-practices/guide-to-writing-user-stories.md"
+    },
+    {
+      "path": "/Agile Practices/Guide to Writing User Stories/User Story Ownership",
+      "id": null,
+      "local": "agile-practices/guide-to-writing-user-stories/user-story-ownership.md"
+    },
+    {
+      "path": "/Agile Practices/Guide to Writing User Stories/WI - User Story Management",
+      "id": null,
+      "local": "agile-practices/guide-to-writing-user-stories/wi-user-story-management.md"
+    },
+    {
+      "path": "/Agile Practices/SAFe Agile",
+      "id": null,
+      "local": "agile-practices/safe-agile.md"
+    },
+    {
+      "path": "/Agile Practices/SAFe Agile/Agile Ceremonies - SAFe",
+      "id": null,
+      "local": "agile-practices/safe-agile/agile-ceremonies-safe.md"
+    },
+    {
+      "path": "/Agile Practices/SAFe Agile/Agile Ceremonies - Scrum",
+      "id": null,
+      "local": "agile-practices/safe-agile/agile-ceremonies-scrum.md"
+    },
+    {
+      "path": "/Agile Practices/SAFe Agile/Introduction to SAFe",
+      "id": null,
+      "local": "agile-practices/safe-agile/introduction-to-safe.md"
+    },
+    {
+      "path": "/Agile Practices/SAFe Agile/SAFe Category",
+      "id": null,
+      "local": "agile-practices/safe-agile/safe-category.md"
+    },
+    {
+      "path": "/Agile Practices/SAFe Agile/SAFe RACI",
+      "id": null,
+      "local": "agile-practices/safe-agile/safe-raci.md"
+    },
+    {
+      "path": "/Agile Practices/SAFe Agile/SAFe Time Box Planning",
+      "id": null,
+      "local": "agile-practices/safe-agile/safe-time-box-planning.md"
+    },
+    {
+      "path": "/Agile Practices/SAFe Agile/SAFe Value Streams",
+      "id": null,
+      "local": "agile-practices/safe-agile/safe-value-streams.md"
+    },
+    {
+      "path": "/Agile Practices/SAFe Agile/Work Item Hierarchy",
+      "id": null,
+      "local": "agile-practices/safe-agile/work-item-hierarchy.md"
+    },
+    {
+      "path": "/Future State",
+      "id": null,
+      "local": "future-state.md"
+    },
+    {
+      "path": "/Future State/ART Escalations",
+      "id": null,
+      "local": "future-state/art-escalations.md"
+    },
+    {
+      "path": "/Future State/Core Team",
+      "id": null,
+      "local": "future-state/core-team.md"
+    },
+    {
+      "path": "/Future State/Core Team/*DRAFT* Core Team Overview",
+      "id": null,
+      "local": "future-state/core-team/draft-core-team-overview.md"
+    },
+    {
+      "path": "/Future State/Core Team/*DRAFT* Escalation Protocols",
+      "id": null,
+      "local": "future-state/core-team/draft-escalation-protocols.md"
+    },
+    {
+      "path": "/Future State/Platform Decision Matrix",
+      "id": null,
+      "local": "future-state/platform-decision-matrix.md"
+    },
+    {
+      "path": "/Future State/Play Store Access",
+      "id": null,
+      "local": "future-state/play-store-access.md"
+    },
+    {
+      "path": "/Future State/Project & Product Team Lists",
+      "id": null,
+      "local": "future-state/project-product-team-lists.md"
+    },
+    {
+      "path": "/Future State/Standard Work Item Tags",
+      "id": null,
+      "local": "future-state/standard-work-item-tags.md"
+    },
+    {
+      "path": "/Future State/Strategies",
+      "id": null,
+      "local": "future-state/strategies.md"
+    },
+    {
+      "path": "/Future State/Strategies/Platform - Reference Applications",
+      "id": null,
+      "local": "future-state/strategies/platform-reference-applications.md"
+    },
+    {
+      "path": "/Future State/Work Item Ownership",
+      "id": null,
+      "local": "future-state/work-item-ownership.md"
+    },
+    {
+      "path": "/Future State/Work Item States",
+      "id": null,
+      "local": "future-state/work-item-states.md"
+    },
+    {
+      "path": "/PI and Sprint Goals",
+      "id": null,
+      "local": "pi-and-sprint-goals.md"
+    },
+    {
+      "path": "/PI and Sprint Goals/AIM PI and Sprint Goals",
+      "id": null,
+      "local": "pi-and-sprint-goals/aim-pi-and-sprint-goals.md"
+    },
+    {
+      "path": "/PI and Sprint Goals/Denali PI Objectives & Goals",
+      "id": null,
+      "local": "pi-and-sprint-goals/denali-pi-objectives-goals.md"
+    },
+    {
+      "path": "/PI and Sprint Goals/NGVS PI and Sprint Goals",
+      "id": null,
+      "local": "pi-and-sprint-goals/ngvs-pi-and-sprint-goals.md"
+    },
+    {
+      "path": "/PI and Sprint Goals/Platform PI Goals & Objectives",
+      "id": null,
+      "local": "pi-and-sprint-goals/platform-pi-goals-objectives.md"
+    },
+    {
+      "path": "/Training and Development",
+      "id": null,
+      "local": "training-and-development.md"
+    },
+    {
+      "path": "/Training and Development/Agile Training Available",
+      "id": null,
+      "local": "training-and-development/agile-training-available.md"
+    },
+    {
+      "path": "/Training and Development/Application Space Software Development",
+      "id": null,
+      "local": "training-and-development/application-space-software-development.md"
+    },
+    {
+      "path": "/Training and Development/Application Space Software Development/Development Environment Setup",
+      "id": null,
+      "local": "training-and-development/application-space-software-development/development-environment-setup.md"
+    },
+    {
+      "path": "/Training and Development/Application Space Software Development/Development Environment Setup/Development Environment Setup - platform-android repo",
+      "id": null,
+      "local": "training-and-development/application-space-software-development/development-environment-setup/development-environment-setup-platform-android-repo.md"
+    },
+    {
+      "path": "/Training and Development/Application Space Software Development/Development Environment Setup/Development Environment Setup - platform-web repo",
+      "id": null,
+      "local": "training-and-development/application-space-software-development/development-environment-setup/development-environment-setup-platform-web-repo.md"
+    },
+    {
+      "path": "/Training and Development/Application Space Software Development/Development Environment Setup/Development Environment Setup - platform repo",
+      "id": null,
+      "local": "training-and-development/application-space-software-development/development-environment-setup/development-environment-setup-platform-repo.md"
+    },
+    {
+      "path": "/Training and Development/Application Space Software Development/Equipment and Tools Access",
+      "id": null,
+      "local": "training-and-development/application-space-software-development/equipment-and-tools-access.md"
+    },
+    {
+      "path": "/Training and Development/Application Space Software Development/Getting Started",
+      "id": null,
+      "local": "training-and-development/application-space-software-development/getting-started.md"
+    },
+    {
+      "path": "/Training and Development/Application Space Software Development/Pull Request Guidance",
+      "id": null,
+      "local": "training-and-development/application-space-software-development/pull-request-guidance.md"
+    },
+    {
+      "path": "/Training and Development/Application Space Software Development/SDS and UVR Guidance",
+      "id": null,
+      "local": "training-and-development/application-space-software-development/sds-and-uvr-guidance.md"
+    },
+    {
+      "path": "/Training and Development/Application Space Software Development/Unit Verification Checklist",
+      "id": null,
+      "local": "training-and-development/application-space-software-development/unit-verification-checklist.md"
+    },
+    {
+      "path": "/Training and Development/Azure DevOps Excel Plugin (Office Integration)",
+      "id": null,
+      "local": "training-and-development/azure-devops-excel-plugin-office-integration.md"
+    },
+    {
+      "path": "/Training and Development/BDD\u2011Based Behavioral Specification and Traceability",
+      "id": null,
+      "local": "training-and-development/bdd-based-behavioral-specification-and-traceability.md"
+    },
+    {
+      "path": "/Training and Development/Software Developer Resources for Training and Development",
+      "id": null,
+      "local": "training-and-development/software-developer-resources-for-training-and-development.md"
+    },
+    {
+      "path": "/Training and Development/Standard Work",
+      "id": null,
+      "local": "training-and-development/standard-work.md"
+    },
+    {
+      "path": "/Training and Development/Standard Work/Code-for-Credit Story Standard Work",
+      "id": null,
+      "local": "training-and-development/standard-work/code-for-credit-story-standard-work.md"
+    },
+    {
+      "path": "/Training and Development/Standard Work/Code-for-Credit Story Standard Work/QMS Alignment from perspective of CfC Story",
+      "id": null,
+      "local": "training-and-development/standard-work/code-for-credit-story-standard-work/qms-alignment-from-perspective-of-cfc-story.md"
+    },
+    {
+      "path": "/Training and Development/Standard Work/Code-for-Credit Story Standard Work/SW Dev",
+      "id": null,
+      "local": "training-and-development/standard-work/code-for-credit-story-standard-work/sw-dev.md"
+    },
+    {
+      "path": "/Training and Development/Standard Work/Code-for-Credit Story Standard Work/Systems Engineering",
+      "id": null,
+      "local": "training-and-development/standard-work/code-for-credit-story-standard-work/systems-engineering.md"
+    },
+    {
+      "path": "/Training and Development/Standard Work/Code-for-Credit Story Standard Work/Team Roles & Responsibilities",
+      "id": null,
+      "local": "training-and-development/standard-work/code-for-credit-story-standard-work/team-roles-responsibilities.md"
+    },
+    {
+      "path": "/Training and Development/Standard Work/Code-for-Credit Story Standard Work/Test Lead",
+      "id": null,
+      "local": "training-and-development/standard-work/code-for-credit-story-standard-work/test-lead.md"
+    },
+    {
+      "path": "/Training and Development/Standard Work/Code-for-Credit Story Standard Work/UX",
+      "id": null,
+      "local": "training-and-development/standard-work/code-for-credit-story-standard-work/ux.md"
+    },
+    {
+      "path": "/Training and Development/Standard Work/PoC Story Standard Work",
+      "id": null,
+      "local": "training-and-development/standard-work/poc-story-standard-work.md"
+    },
+    {
+      "path": "/Training and Development/Standard Work/Product Feature Complete Standard Work",
+      "id": null,
+      "local": "training-and-development/standard-work/product-feature-complete-standard-work.md"
+    }
+  ]
+}

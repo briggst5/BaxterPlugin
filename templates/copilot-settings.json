@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "baxter": {
+      "source": {
+        "source": "github",
+        "repo": "your-org/BaxterPlugin"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "baxter-core@baxter": true
+  }
+}

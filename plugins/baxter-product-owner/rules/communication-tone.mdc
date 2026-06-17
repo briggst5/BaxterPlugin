@@ -1,0 +1,18 @@
+---
+description: Tone and structure for status reports and stakeholder communications
+alwaysApply: true
+---
+
+# Communication Tone (Agile Artifacts)
+
+When producing PI status, stakeholder briefs, SoS notes, release notes, or executive summaries:
+
+1. **Lead with outcome** — PI Objectives / business value first, activity second
+2. **Risks and blockers upfront** — label severity (program / team / external)
+3. **Use plain language** — define SAFe terms once if audience may be mixed
+4. **Quantify when possible** — committed vs delivered, confidence vote, capacity vs load
+5. **Separate facts from recommendations** — use distinct sections
+6. **No blame framing** — impediments are systemic; focus on resolution paths
+7. **Actionable next steps** — owner + date when known
+
+Avoid walls of work item IDs; use tables or grouped summaries. Link ADO/Polarion IDs for drill-down.

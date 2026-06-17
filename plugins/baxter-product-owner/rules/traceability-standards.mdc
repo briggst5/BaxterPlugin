@@ -1,0 +1,37 @@
+---
+description: Required traceability links between Polarion requirements and ADO work items
+alwaysApply: true
+---
+
+# Traceability Standards
+
+## Required hierarchy (ADO)
+
+Every User Story → parent Feature → parent Epic (when epics are used).
+
+## Polarion ↔ ADO
+
+| Relationship | When required |
+|--------------|---------------|
+| Requirement **implements** Story/Feature | Story delivers regulated or specified requirement |
+| Requirement **verifies** TestCase | Validation against Polarion test cases |
+| Feature ↔ Epic | Program-level traceability |
+
+## Audit checklist
+
+Before closing a Story tied to Polarion requirements:
+
+1. Parent Feature exists and is linked
+2. Polarion requirement link exists (`get_work_item_links` / ADO relations)
+3. Acceptance criteria cover requirement intent (not full spec paste)
+4. Review/approval status checked if item is under formal review (`list_reviewers`)
+
+## Orphan detection
+
+Use `traceability-auditor` agent or `polarion-requirements-steward` skill to find:
+
+- Polarion requirements with no implementing ADO item
+- ADO Stories with no parent Feature
+- Stories referencing platform delivery without Platform Decision and Rationale
+
+Do not create links in Polarion or ADO without explicit user confirmation unless they asked to "fix traceability."

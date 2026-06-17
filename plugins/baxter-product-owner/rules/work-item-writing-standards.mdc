@@ -1,0 +1,46 @@
+---
+description: Work item title, description, AC, and DoD writing standards
+globs: docs/templates/**
+alwaysApply: false
+---
+
+# Work Item Writing Standards
+
+Applies when drafting or editing work items, backlog items, or content under `docs/templates/`.
+
+## Titles
+
+- Start with a verb or capability noun; be specific
+- Feature: `[Capability] — short outcome` (e.g., `Early Warning Score Display`)
+- Story: user-facing outcome, not implementation (`Display EWS on Patient Monitor`, not `Add EWS API endpoint`)
+
+## Descriptions
+
+**Feature:** What it is + value delivered + Technical Readiness assessment
+
+**Story:** Full user story sentence + link to parent Feature + Platform Decision and Rationale
+
+**Task:** Work description + Definition of Done block:
+
+```
+Definition of Done:
+I know that I am done when...
+- [demonstrable criterion 1]
+- [demonstrable criterion 2]
+```
+
+## Acceptance criteria (Stories)
+
+- Given / When / Then format preferred
+- Testable, observable, no hidden scope
+- Created collaboratively with agile team
+
+## Story points
+
+Fibonacci only: 1, 2, 3, 5, 8, 13, 21, 34, 55. Flag items outside sizing guidelines in `docs/futurestate-process.md`.
+
+## Tags
+
+Apply standard tags from `reference/wiki/future-state/standard-work-item-tags.md` when gaps exist (NeedsAC, NeedsDoD, etc.).
+
+Templates: `docs/templates/feature.md`, `story.md`, `pi-objective.md`, `dependency-record.md`

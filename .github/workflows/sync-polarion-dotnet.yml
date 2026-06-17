@@ -1,0 +1,63 @@
+name: Sync PolarionMCP dotnet
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_branch:
+        description: "Upstream PolarionMCP branch to sync"
+        required: false
+        default: "dotnet"
+  schedule:
+    - cron: "0 9 * * 1"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Sync from PolarionMCP
+        env:
+          SOURCE_BRANCH: ${{ inputs.source_branch || 'dotnet' }}
+        run: ./scripts/sync-polarion-dotnet.sh
+
+      - name: Capture upstream commit
+        id: upstream
+        env:
+          SOURCE_BRANCH: ${{ inputs.source_branch || 'dotnet' }}
+        run: |
+          sha="$(git ls-remote --heads https://github.com/briggst5/PolarionMCP.git "${SOURCE_BRANCH}" | awk '{print $1}')"
+          echo "sha=${sha}" >> "$GITHUB_OUTPUT"
+
+      - name: Detect sync changes
+        id: changes
+        run: |
+          if [[ -n "$(git status --porcelain -- plugins/baxter-polarion/mcp-servers plugins/baxter-polarion/bin)" ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Bump baxter-polarion version and changelog
+        if: steps.changes.outputs.changed == 'true'
+        run: ./scripts/bump-polarion-version.sh "${{ steps.upstream.outputs.sha }}"
+
+      - name: Create pull request
+        if: steps.changes.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: chore/sync-polarion-dotnet
+          title: "chore: sync PolarionMCP dotnet, binaries, and version bump"
+          commit-message: "chore: sync PolarionMCP dotnet, binaries, and version bump"
+          body: |
+            Automated sync from `briggst5/PolarionMCP` (`dotnet`) into `plugins/baxter-polarion/mcp-servers`, including rebuilt `linux-x64` and `win-x64` bundled binaries.
+            This PR also auto-bumps `baxter-polarion` plugin version and prepends changelog notes.

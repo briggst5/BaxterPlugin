@@ -1,0 +1,13 @@
+{
+  "name": "baxter-product-owner",
+  "description": "FutureState SAFe skills, rules, and agents for Product Owners, RTEs, and agile team members. Includes Polarion and Azure DevOps MCP integrations.",
+  "version": "0.1.2",
+  "author": {
+    "name": "Baxter Engineering"
+  },
+  "license": "MIT",
+  "skills": "./skills/",
+  "agents": "./agents/",
+  "mcpServers": "./.mcp.copilot.json",
+  "hooks": "./hooks/copilot-hooks.json"
+}

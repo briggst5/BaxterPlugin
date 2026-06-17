@@ -1,0 +1,28 @@
+---
+description: When to use Azure DevOps vs Polarion — no duplicate sources of truth
+alwaysApply: true
+---
+
+# Azure DevOps vs Polarion Boundary
+
+## Azure DevOps (execution layer)
+
+Use for: Features, User Stories, Tasks, Bugs, iterations, capacity, PI Objectives, dependencies, backlog queries, sprint assignment, comments, PR links, wiki process docs.
+
+MCP server: `azure-devops` (domains: core, wiki, work, work-items)
+
+## Polarion (specification & compliance layer)
+
+Use for: formal requirements, SRS/LiveDocs, requirement reviews and approvals, requirement-to-implementation links, test result records on Polarion test runs, configuration SRS inventory.
+
+MCP server: `polarion-mcp`
+
+## Linking, not duplicating
+
+- A User Story in ADO may **implement** or **trace to** a Polarion requirement — link them; do not copy full spec text into ADO unless summarizing for sprint context
+- Acceptance criteria in ADO should be **testable sprint commitments**; Polarion holds authoritative requirement language
+- Status changes: update the system where the item lives; sync both only when the user's workflow requires it
+
+## Before creating work items
+
+Ask (or infer from context): Is this execution tracking (ADO) or formal specification (Polarion)? When unclear, default to ADO for Stories/Tasks and Polarion for requirements-level artifacts.

@@ -1,0 +1,28 @@
+---
+description: Require explicit user approval before mutating work item state in ADO or Polarion
+alwaysApply: true
+---
+
+# No Unapproved Status Changes
+
+## Read operations
+
+Freely query, list, summarize, and draft content for ADO and Polarion work items.
+
+## Write operations — require confirmation
+
+Before calling any of these, **show the proposed change and get explicit user approval**:
+
+- ADO: `wit_create_work_item`, `wit_update_work_item`, `wit_update_work_items_batch`, state/field changes
+- Polarion: `set_work_item_status`, `add_work_item_link`, `remove_work_item_link`, `add_reviewer`, `remove_reviewer`, `reset_review_status`, `create_test_result_record`, `add_work_item_comment` (when posting on behalf of user)
+
+## Exceptions
+
+- User explicitly says: "create", "update", "close", "link", "approve", "post comment", or "apply changes"
+- User is iterating on a draft in chat and says "looks good, do it"
+
+## Comments on Waiting state
+
+When recommending Waiting, always draft the blocker comment for user approval:
+
+> Blocked: [reason]. Waiting on: [person/team]. Expected resolution: [date if known].

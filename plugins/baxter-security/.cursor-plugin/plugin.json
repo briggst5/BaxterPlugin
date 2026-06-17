@@ -1,0 +1,17 @@
+{
+  "name": "baxter-security",
+  "displayName": "Baxter Security",
+  "version": "0.1.0",
+  "description": "Optional security domain plugin for security review skills and agents.",
+  "author": {
+    "name": "Baxter Engineering"
+  },
+  "license": "MIT",
+  "keywords": [
+    "baxter",
+    "security",
+    "review"
+  ],
+  "skills": "./skills/",
+  "agents": "./agents/"
+}

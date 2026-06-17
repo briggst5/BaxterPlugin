@@ -1,0 +1,13 @@
+---
+description: Baxter org-wide engineering standards for agent behavior in all projects.
+alwaysApply: true
+---
+
+# Baxter engineering standards
+
+- Prefer minimal, focused diffs that solve the stated problem only.
+- Read existing code and match naming, structure, and patterns before adding new abstractions.
+- Never commit secrets, API keys, or credentials files.
+- Add meaningful tests when behavior changes; do not add trivial tests.
+- Place imports at the top of modules; avoid inline imports unless documented for circular deps.
+- Use exhaustive switch handling with a `never` check in TypeScript default cases.

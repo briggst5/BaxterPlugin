@@ -1,0 +1,2 @@
+# Bundled uv (optional). Run scripts/bundle-uv-tools.sh to populate.
+# Bundled Polarion MCP binaries (optional). Run scripts/build-polarion-binaries.sh on each OS.

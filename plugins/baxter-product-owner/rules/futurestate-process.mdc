@@ -1,0 +1,41 @@
+---
+description: FutureState SAFe process — hierarchy, timeboxes, ownership, states, tags
+alwaysApply: true
+---
+
+# FutureState Agile Process
+
+This project follows SAFe on the FLC FutureState program. **Always prefer local process docs over generic SAFe guidance.**
+
+## Source of truth
+
+1. `docs/futurestate-process.md` — consolidated summary (read first)
+2. `reference/wiki/` — full wiki page exports (local; gitignored — run `scripts/sync_wiki.py`)
+3. [Platform.wiki](https://dev.azure.com/FLC-NPD/FutureState/_wiki/wikis/Platform.wiki) — live wiki via Azure DevOps MCP
+
+## Non-negotiables
+
+- **Hierarchy:** Epic → Feature → User Story → Task
+- **Timeboxes:** PI = 1 quarter (6 half-month iterations); Story/Task = 1 sprint; Feature = 1 PI
+- **Story format:** As a [role], I want [goal] so that [benefit]
+- **Platform governance:** User stories require Platform Decision and Rationale (*"It's Platform until it isn't"*)
+- **States:** New → Active → Resolved → Closed; use Waiting for blockers (with comment)
+- **Tags:** Apply governance tags (NeedsPO, NeedsAC, NeedsDoD, NeedsPI, NeedSAFe, NeedsScope)
+
+## Tool routing
+
+| Need | Tool |
+|------|------|
+| Backlog, iterations, capacity, PI planning boards | Azure DevOps MCP |
+| Requirements, SRS/LiveDocs, reviews, traceability, test results | Polarion MCP |
+| Process questions | `safe-process-navigator` skill |
+| Refresh wiki exports | `wiki-sync` skill |
+
+## Roles
+
+- **Epic:** Business Owner, Architect, PM
+- **Feature:** PM, PO
+- **Story:** PO
+- **Task:** Agile Team
+
+Do not invent org-specific field names, iteration paths, or team names — query ADO or ask the user.
