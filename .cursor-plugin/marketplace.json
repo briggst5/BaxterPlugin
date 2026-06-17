@@ -25,7 +25,7 @@
     {
       "name": "baxter-polarion",
       "source": "./plugins/baxter-polarion",
-      "description": "Standalone Polarion MCP server for Linux and Windows with auto-bootstrap launchers."
+      "description": "Standalone Polarion MCP server for Linux and Windows with bundled binaries."
     }
   ]
 }

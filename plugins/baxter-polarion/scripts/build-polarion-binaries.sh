@@ -29,7 +29,6 @@ publish_rid() {
     -r "${rid}" \
     --self-contained true \
     -p:PublishSingleFile=true \
-    -p:AssemblyName=polarion-mcp \
     -o "${out}"
 }
 

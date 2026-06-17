@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "polarion-mcp": {
+      "command": "/absolute/path/to/polarion-mcp",
+      "args": []
+    }
+  }
+}

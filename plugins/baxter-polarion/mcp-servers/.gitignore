@@ -1,22 +1,45 @@
-# Python
-__pycache__/
-*.py[cod]
-*.pyo
-*.pyd
-*.so
-*.egg
-*.egg-info/
+# .NET build artifacts
+bin/
+obj/
+artifacts/
 dist/
 build/
-*.whl
-.eggs/
+out/
+publish/
 
-# Virtual environments
+# .NET test and coverage outputs
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+coverage/
+coverage-report/
+
+# User/IDE-specific .NET files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+
+# NuGet packages/cache (when local)
+packages/
+
+# Local tooling
+.dotnet/
+dotnet/.config/*.json.user
+
+# Environment and secrets
+.env
+.env.*
+
+# Python/legacy leftovers
+__pycache__/
+.pytest_cache/
 .venv/
 venv/
 env/
-.env
-.env.*
 
 # IDE
 .vscode/

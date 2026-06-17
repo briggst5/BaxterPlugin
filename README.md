@@ -28,12 +28,20 @@ ln -sfn "$(pwd)/plugins/baxter-security" ~/.cursor/plugins/local/baxter-security
 
 Reload Cursor and enable the `baxter-echo` MCP server in Settings → MCP.
 
-## Cursor Enterprise rollout
+## Cursor Team Marketplace rollout
 
-1. Push this repo to GitHub (`your-org/BaxterPlugin`).
-2. Dashboard → Settings → Plugins → Team Marketplaces → **Import from Repo**.
+1. Push this repo to GitHub (for example `briggst5/BaxterPlugin`).
+2. Cursor Dashboard → Settings → Plugins → Team Marketplaces → **Import from Repo**.
 3. Set `baxter-core` to **Required**; set optional plugins per SCIM group.
 4. Enable **Auto Refresh**.
+
+### Private marketplace readiness checklist
+
+- Use a dedicated repo (`BaxterPlugin`) with branch protection on `main`.
+- Restrict who can edit plugin install modes in Cursor dashboard.
+- Keep optional plugins (`baxter-security`, `baxter-product-owner`, `baxter-polarion`) mapped to the right SCIM groups.
+- Enable Auto Refresh so merged PRs propagate without manual republish.
+- Run `./scripts/validate-plugin.sh` in CI on every PR before merge.
 
 ## VS Code Copilot rollout
 

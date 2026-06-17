@@ -1,0 +1,21 @@
+{
+  "providerId": "Microsoft.Tools.ServiceModel.Svcutil",
+  "version": "8.0.0",
+  "options": {
+    "inputs": [
+      "https://testdrive.polarion.com/polarion/ws/services/SessionWebService?wsdl"
+    ],
+    "namespaceMappings": [
+      "*, PolarionMcp.Client.ConnectedServices.SessionWebService"
+    ],
+    "outputFile": "Reference.cs",
+    "references": [
+      "Microsoft.Extensions.DependencyInjection.Abstractions, {Microsoft.Extensions.DependencyInjection.Abstractions, 10.0.9}",
+      "Microsoft.Extensions.Logging.Abstractions, {Microsoft.Extensions.Logging.Abstractions, 10.0.9}",
+      "System.Diagnostics.DiagnosticSource, {System.Diagnostics.DiagnosticSource, 10.0.9}",
+      "System.Security.Principal.Windows, {System.Security.Principal.Windows, 5.0.0}"
+    ],
+    "targetFramework": "net8.0",
+    "typeReuseMode": "All"
+  }
+}

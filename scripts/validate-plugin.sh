@@ -107,8 +107,11 @@ validate_plugin() {
         warn "No server entrypoint found under ${plugin_dir}/mcp-servers/"
       fi
     fi
+    if [[ -f "${plugin_dir}/mcp-servers/dotnet/PolarionMcp.sln" ]]; then
+      found_server=true
+    fi
     if [[ "${found_server}" == false ]]; then
-      warn "mcp-servers/ has no Python MCP projects: ${plugin_dir}/mcp-servers/"
+      warn "mcp-servers/ has no recognized MCP project metadata: ${plugin_dir}/mcp-servers/"
     fi
     shopt -u nullglob
     if [[ ! -x "${plugin_dir}/scripts/run-mcp-server.sh" ]]; then
@@ -142,6 +145,17 @@ for key in ("skills", "rules", "agents", "mcpServers", "hooks"):
 PY
   if [[ $? -ne 0 ]]; then
     ERRORS=$((ERRORS + 1))
+  fi
+
+  if [[ "${plugin_name}" == "baxter-polarion" ]]; then
+    local linux_bin="${plugin_dir}/bin/linux-x64/polarion-mcp"
+    local win_bin="${plugin_dir}/bin/win-x64/polarion-mcp.exe"
+    if [[ ! -f "${linux_bin}" ]]; then
+      error "Missing bundled Linux binary: ${linux_bin}"
+    fi
+    if [[ ! -f "${win_bin}" ]]; then
+      error "Missing bundled Windows binary: ${win_bin}"
+    fi
   fi
 }
 
