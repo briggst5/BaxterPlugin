@@ -57,7 +57,7 @@ changelog = changelog_path.read_text()
 sha_note = f" (upstream `{upstream_sha[:12]}`)" if upstream_sha else ""
 entry = (
     f"## {next_version}\n\n"
-    f"- Synced PolarionMCP dotnet branch and refreshed bundled linux-x64/win-x64 binaries{sha_note}\n\n"
+    f"- Synced PolarionMCP main branch and refreshed bundled linux-x64/win-x64 binaries{sha_note}\n\n"
 )
 
 if changelog.startswith("# Changelog\n\n"):

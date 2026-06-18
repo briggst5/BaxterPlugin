@@ -4,7 +4,7 @@ Optional domain plugin for security-focused skills and agents.
 
 ## Contents
 
-- **Skill:** `security-review`
+- **Skills:** `security-review`, `cve-impact-analysis`
 - **Agent:** `security-review`
 
 ## Cursor distribution

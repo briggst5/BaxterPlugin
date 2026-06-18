@@ -8,10 +8,12 @@ using PolarionMcp.Server;
 PolarionEnvFileLoader.LoadEnvironmentVariables();
 
 var options = PolarionClientOptions.FromEnvironment();
+var logLevel = ServerLogging.ParseLogLevel(options.LogLevel);
 
 var builder = Host.CreateApplicationBuilder(args);
 
 builder.Logging.ClearProviders();
+builder.Logging.SetMinimumLevel(logLevel);
 builder.Logging.AddConsole(consoleOptions =>
 {
     // stdout must remain protocol-only for MCP stdio servers.

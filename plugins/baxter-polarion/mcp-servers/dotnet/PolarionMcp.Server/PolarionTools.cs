@@ -144,7 +144,7 @@ public sealed class PolarionTools
     [McpServerTool(Name = "list_work_item_comments"), Description("List comments on a work item.")]
     public string ListWorkItemComments(string work_item_id) => Run("list_work_item_comments", new() { ["work_item_id"] = work_item_id });
 
-    [McpServerTool(Name = "add_work_item_comment"), Description("Add a comment to a work item.")]
+    [McpServerTool(Name = "add_work_item_comment"), Description("Add a comment or reply to a work item.")]
     public string AddWorkItemComment(string work_item_id, string text, string mime_type = "text/plain", string? parent_comment_id = null) =>
         Run(
             "add_work_item_comment",

@@ -1,5 +1,7 @@
+using System.Reflection;
 using Microsoft.Extensions.Logging.Abstractions;
 using PolarionMcp.Client;
+using PolarionMcp.Client.ConnectedServices.TrackerWebService;
 
 namespace PolarionMcp.Client.Tests;
 
@@ -61,6 +63,63 @@ public sealed class PolarionClientOptionsTests
 
         Assert.True(result.TryGetValue("error", out var message));
         Assert.False(string.IsNullOrWhiteSpace(message?.ToString()));
+    }
+
+    [Fact]
+    public void TryResolveCommentParentUri_ReturnsSubterraUriAsIs()
+    {
+        var parentUri = "subterra:data-service:objects:/default/PLT${WorkItem}PLT-1${Comment}1";
+
+        var result = InvokeTryResolveCommentParentUri(parentUri, comments: null);
+
+        Assert.Equal(parentUri, result);
+    }
+
+    [Fact]
+    public void TryResolveCommentParentUri_ResolvesListedCommentId()
+    {
+        var comments = new[]
+        {
+            new Comment
+            {
+                id = "1",
+                uri = "subterra:data-service:objects:/default/PLT${WorkItem}PLT-1${Comment}1"
+            },
+            new Comment
+            {
+                id = "2",
+                uri = "subterra:data-service:objects:/default/PLT${WorkItem}PLT-1${Comment}2"
+            }
+        };
+
+        var result = InvokeTryResolveCommentParentUri("2", comments);
+
+        Assert.Equal("subterra:data-service:objects:/default/PLT${WorkItem}PLT-1${Comment}2", result);
+    }
+
+    [Fact]
+    public void TryResolveCommentParentUri_ReturnsNull_WhenCommentIdUnknown()
+    {
+        var comments = new[]
+        {
+            new Comment
+            {
+                id = "1",
+                uri = "subterra:data-service:objects:/default/PLT${WorkItem}PLT-1${Comment}1"
+            }
+        };
+
+        var result = InvokeTryResolveCommentParentUri("missing", comments);
+
+        Assert.Null(result);
+    }
+
+    private static string? InvokeTryResolveCommentParentUri(string parentCommentId, Comment[]? comments)
+    {
+        var method = typeof(PolarionClient).GetMethod("TryResolveCommentParentUri", BindingFlags.NonPublic | BindingFlags.Static);
+        Assert.NotNull(method);
+
+        return (string?)method.Invoke(null, [parentCommentId, comments]);
     }
 
     private sealed class EnvironmentScope : IDisposable

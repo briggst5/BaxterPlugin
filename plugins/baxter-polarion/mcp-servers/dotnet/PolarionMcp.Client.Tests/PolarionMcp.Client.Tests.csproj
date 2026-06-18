@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PolarionMcp.Client\PolarionMcp.Client.csproj" />
+    <ProjectReference Include="..\PolarionMcp.Server\PolarionMcp.Server.csproj" />
   </ItemGroup>
 
 </Project>

@@ -37,6 +37,8 @@ Server starts immediately from the bundled executable.
 ./scripts/sync-polarion-dotnet.sh
 ```
 
+Syncs from the PolarionMCP `main` branch by default.
+
 ### Build and bundle Linux + Windows binaries
 
 ```bash

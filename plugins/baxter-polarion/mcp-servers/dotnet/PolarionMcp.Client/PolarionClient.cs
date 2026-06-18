@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Net;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Logging;
 using PolarionMcp.Client.ConnectedServices.SessionWebService;
 using PolarionMcp.Client.ConnectedServices.TestManagementWebService;
@@ -38,9 +38,6 @@ public sealed class PolarionClient
         "not authorized|session.*(expired|invalid|timed out)|authentication.*(failed|expired)|401",
         RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
     );
-    private static readonly object TlsCallbackLock = new();
-    private static bool TlsCallbackConfigured;
-
     private readonly PolarionClientOptions _options;
     private readonly ILogger<PolarionClient> _logger;
     private readonly SemaphoreSlim _connectLock = new(1, 1);
@@ -76,7 +73,6 @@ public sealed class PolarionClient
             }
 
             ValidateRequiredConfiguration();
-            ConfigureTlsPolicy();
             DisconnectUnlocked();
 
             var pat = _options.PersonalAccessToken.Trim();
@@ -303,7 +299,8 @@ public sealed class PolarionClient
     {
         var endpoint = new EndpointAddress(BuildWsdlEndpoint("SessionWebService"));
         var client = new SessionWebServiceClient(CreateBinding(), endpoint);
-        client.Endpoint.EndpointBehaviors.Add(
+        AddEndpointBehaviors(
+            client.Endpoint,
             new PolarionSoapEndpointBehavior(
                 _sessionState,
                 authorizationHeader,
@@ -318,7 +315,8 @@ public sealed class PolarionClient
     {
         var endpoint = new EndpointAddress(BuildWsdlEndpoint("TrackerWebService"));
         var client = new TrackerWebServiceClient(CreateBinding(), endpoint);
-        client.Endpoint.EndpointBehaviors.Add(
+        AddEndpointBehaviors(
+            client.Endpoint,
             new PolarionSoapEndpointBehavior(
                 _sessionState,
                 authorizationHeader,
@@ -333,7 +331,8 @@ public sealed class PolarionClient
     {
         var endpoint = new EndpointAddress(BuildWsdlEndpoint("TestManagementWebService"));
         var client = new TestManagementWebServiceClient(CreateBinding(), endpoint);
-        client.Endpoint.EndpointBehaviors.Add(
+        AddEndpointBehaviors(
+            client.Endpoint,
             new PolarionSoapEndpointBehavior(
                 _sessionState,
                 authorizationHeader,
@@ -342,6 +341,17 @@ public sealed class PolarionClient
             )
         );
         return client;
+    }
+
+    private void AddEndpointBehaviors(ServiceEndpoint endpoint, IEndpointBehavior soapBehavior)
+    {
+        var tlsBehavior = TlsHttpClientEndpointBehavior.TryCreate(_options);
+        if (tlsBehavior is not null)
+        {
+            endpoint.EndpointBehaviors.Add(tlsBehavior);
+        }
+
+        endpoint.EndpointBehaviors.Add(soapBehavior);
     }
 
     private BasicHttpBinding CreateBinding()
@@ -374,52 +384,6 @@ public sealed class PolarionClient
     {
         var bytes = Encoding.UTF8.GetBytes($"{username}:{password}");
         return $"Basic {Convert.ToBase64String(bytes)}";
-    }
-
-    private void ConfigureTlsPolicy()
-    {
-        lock (TlsCallbackLock)
-        {
-            if (TlsCallbackConfigured)
-            {
-                return;
-            }
-
-            if (_options.TlsSkipVerify)
-            {
-                ServicePointManager.ServerCertificateValidationCallback += (_, _, _, _) => true;
-                TlsCallbackConfigured = true;
-                _logger.LogWarning("TLS certificate validation is disabled (POLARION_TLS_SKIP_VERIFY=true).");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(_options.TlsCaFile))
-            {
-                TlsCallbackConfigured = true;
-                return;
-            }
-
-            var trustedCa = X509Certificate2.CreateFromPemFile(_options.TlsCaFile);
-            ServicePointManager.ServerCertificateValidationCallback += (_, cert, _, errors) =>
-            {
-                if (errors == System.Net.Security.SslPolicyErrors.None)
-                {
-                    return true;
-                }
-
-                if (cert is null)
-                {
-                    return false;
-                }
-
-                using var customChain = new X509Chain();
-                customChain.ChainPolicy.TrustMode = X509ChainTrustMode.CustomRootTrust;
-                customChain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
-                customChain.ChainPolicy.CustomTrustStore.Add(trustedCa);
-                return customChain.Build(new X509Certificate2(cert));
-            };
-            TlsCallbackConfigured = true;
-        }
     }
 
     private void DisconnectUnlocked()
@@ -776,20 +740,28 @@ public sealed class PolarionClient
         var workItemId = GetRequiredString(arguments, "work_item_id");
         var text = GetRequiredString(arguments, "text");
         var mime = GetOptionalString(arguments, "mime_type") ?? "text/plain";
+        var parentCommentId = GetOptionalString(arguments, "parent_comment_id");
+        var hasParentComment = !string.IsNullOrWhiteSpace(parentCommentId);
 
         var content = new Text { type = mime, content = text };
         var uri = BuildWorkItemUri(workItemId);
+        var parentObjectUri = uri;
+
+        if (hasParentComment)
+        {
+            parentObjectUri = ResolveCommentParentUri(uri, parentCommentId!);
+        }
 
         try
         {
-            var resp = TrackerClient().addCommentAsync(uri, string.Empty, content).GetAwaiter().GetResult();
+            var resp = TrackerClient().addCommentAsync(parentObjectUri, string.Empty, content).GetAwaiter().GetResult();
             return new Dictionary<string, object?>(StringComparer.Ordinal)
             {
                 ["success"] = true,
                 ["comment_uri"] = resp.addCommentReturn
             };
         }
-        catch
+        catch when (!hasParentComment)
         {
             TrackerClient().createCommentAsync(uri, content).GetAwaiter().GetResult();
             return new Dictionary<string, object?>(StringComparer.Ordinal)
@@ -797,6 +769,50 @@ public sealed class PolarionClient
                 ["success"] = true
             };
         }
+    }
+
+    private string ResolveCommentParentUri(string workItemUri, string parentCommentId)
+    {
+        var requestedParent = parentCommentId.Trim();
+        var directUri = TryResolveCommentParentUri(requestedParent, comments: null);
+        if (directUri is not null)
+        {
+            return directUri;
+        }
+
+        var response = TrackerClient().getWorkItemByUriWithFieldsAsync(workItemUri, ["comments"]).GetAwaiter().GetResult();
+        var workItem = GetReturnValue<WorkItem>(response);
+        var resolvedUri = TryResolveCommentParentUri(requestedParent, workItem?.comments);
+        if (resolvedUri is not null)
+        {
+            return resolvedUri;
+        }
+
+        throw new InvalidOperationException($"Parent comment '{requestedParent}' was not found on work item.");
+    }
+
+    private static string? TryResolveCommentParentUri(string parentCommentId, IEnumerable<Comment>? comments)
+    {
+        if (parentCommentId.StartsWith("subterra:", StringComparison.Ordinal))
+        {
+            return parentCommentId;
+        }
+
+        if (comments is null)
+        {
+            return null;
+        }
+
+        foreach (var comment in comments)
+        {
+            if (string.Equals(comment.id, parentCommentId, StringComparison.Ordinal) ||
+                string.Equals(comment.uri, parentCommentId, StringComparison.Ordinal))
+            {
+                return string.IsNullOrWhiteSpace(comment.uri) ? null : comment.uri;
+            }
+        }
+
+        return null;
     }
 
     private Dictionary<string, object?> ListReviewers(Dictionary<string, object?> arguments)

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Sync PolarionMCP dotnet branch into baxter-polarion and rebuild binaries.
+# Sync PolarionMCP main branch into baxter-polarion and rebuild binaries.
 set -euo pipefail
 
 SOURCE_REPO="${SOURCE_REPO:-https://github.com/briggst5/PolarionMCP.git}"
-SOURCE_BRANCH="${SOURCE_BRANCH:-dotnet}"
+SOURCE_BRANCH="${SOURCE_BRANCH:-main}"
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PLUGIN_DIR="${ROOT}/plugins/baxter-polarion"

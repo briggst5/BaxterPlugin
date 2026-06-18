@@ -1,4 +1,4 @@
-name: Sync PolarionMCP dotnet
+name: Sync PolarionMCP
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
       source_branch:
         description: "Upstream PolarionMCP branch to sync"
         required: false
-        default: "dotnet"
+        default: "main"
   schedule:
     - cron: "0 9 * * 1"
 
@@ -27,13 +27,13 @@ jobs:
 
       - name: Sync from PolarionMCP
         env:
-          SOURCE_BRANCH: ${{ inputs.source_branch || 'dotnet' }}
+          SOURCE_BRANCH: ${{ inputs.source_branch || 'main' }}
         run: ./scripts/sync-polarion-dotnet.sh
 
       - name: Capture upstream commit
         id: upstream
         env:
-          SOURCE_BRANCH: ${{ inputs.source_branch || 'dotnet' }}
+          SOURCE_BRANCH: ${{ inputs.source_branch || 'main' }}
         run: |
           sha="$(git ls-remote --heads https://github.com/briggst5/PolarionMCP.git "${SOURCE_BRANCH}" | awk '{print $1}')"
           echo "sha=${sha}" >> "$GITHUB_OUTPUT"
@@ -56,8 +56,8 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           branch: chore/sync-polarion-dotnet
-          title: "chore: sync PolarionMCP dotnet, binaries, and version bump"
-          commit-message: "chore: sync PolarionMCP dotnet, binaries, and version bump"
+          title: "chore: sync PolarionMCP, binaries, and version bump"
+          commit-message: "chore: sync PolarionMCP, binaries, and version bump"
           body: |
-            Automated sync from `briggst5/PolarionMCP` (`dotnet`) into `plugins/baxter-polarion/mcp-servers`, including rebuilt `linux-x64` and `win-x64` bundled binaries.
+            Automated sync from `briggst5/PolarionMCP` (`main`) into `plugins/baxter-polarion/mcp-servers`, including rebuilt `linux-x64` and `win-x64` bundled binaries.
             This PR also auto-bumps `baxter-polarion` plugin version and prepends changelog notes.

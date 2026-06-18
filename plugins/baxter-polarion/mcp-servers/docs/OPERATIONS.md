@@ -132,11 +132,15 @@ Use this checklist.
 ### Symptom: TLS / certificate validation error
 
 - Likely causes:
+  - Corporate CA not in the OS trust store (common on WSL2)
   - Self-signed cert with strict validation enabled
   - Wrong `POLARION_TLS_CA_FILE` path
+  - **Linux/WSL (.NET 8):** older builds used `ServicePointManager`, which WCF ignores on .NET Core — `POLARION_TLS_SKIP_VERIFY=true` logged a warning but TLS still failed
 - Fix:
-  1. Set `POLARION_TLS_SKIP_VERIFY=true` (quickest)
-  2. Or set `POLARION_TLS_SKIP_VERIFY=false` with valid `POLARION_TLS_CA_FILE`
+  1. Use a build with `TlsHttpClientEndpointBehavior` (HttpClientHandler-based TLS)
+  2. Set `POLARION_TLS_SKIP_VERIFY=false` and `POLARION_TLS_CA_FILE=/path/to/corporate-ca.pem` (preferred)
+  3. Or set `POLARION_TLS_SKIP_VERIFY=true` for a quick dev workaround
+  4. On WSL, install Windows-exported CAs into the Linux trust store if you rely on system validation
 
 ### Symptom: frequent reconnect loops / timeouts
 
