@@ -1,7 +1,7 @@
 {
   "name": "baxter-security",
   "displayName": "Baxter Security",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Optional security domain plugin for security review skills and agents.",
   "author": {
     "name": "Baxter Engineering"
