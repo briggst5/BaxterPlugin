@@ -1,0 +1,36 @@
+{
+  "name": "baxter",
+  "owner": {
+    "name": "Baxter Engineering"
+  },
+  "metadata": {
+    "description": "Baxter team marketplace for shared MCP servers, skills, and agents for VS Code GitHub Copilot."
+  },
+  "plugins": [
+    {
+      "name": "baxter-core",
+      "source": "./plugins/baxter-core",
+      "description": "Required baseline plugin: org standards, core skills, shared MCP servers, and agents."
+    },
+    {
+      "name": "baxter-security",
+      "source": "./plugins/baxter-security",
+      "description": "Optional security domain plugin: security review skills and agents."
+    },
+    {
+      "name": "baxter-product-owner",
+      "source": "./plugins/baxter-product-owner",
+      "description": "FutureState SAFe PO/RTE skills, agents, and Azure DevOps MCP."
+    },
+    {
+      "name": "baxter-polarion",
+      "source": "./plugins/baxter-polarion",
+      "description": "Standalone Polarion MCP server for Linux and Windows with bundled binaries."
+    },
+    {
+      "name": "baxter-flc-platform-sw",
+      "source": "./plugins/baxter-flc-platform-sw",
+      "description": "FLC platform software review skills and checklists from ai-skills."
+    }
+  ]
+}
