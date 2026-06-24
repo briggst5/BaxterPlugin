@@ -1,0 +1,123 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/GqpMcp.Core.csproj": {}
+  },
+  "projects": {
+    "/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/GqpMcp.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/GqpMcp.Core.csproj",
+        "projectName": "GqpMcp.Core",
+        "projectPath": "/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/GqpMcp.Core.csproj",
+        "packagesPath": "/tmp/cursor-sandbox-cache/19d04efc650a181915b506dcd906ca36/nuget",
+        "outputPath": "/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/briggst5/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "/usr/lib/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Azure.AI.OpenAI": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "Azure.Identity": {
+              "target": "Package",
+              "version": "[1.14.2, )"
+            },
+            "Azure.Search.Documents": {
+              "target": "Package",
+              "version": "[11.6.0, )"
+            },
+            "Azure.Security.KeyVault.Secrets": {
+              "target": "Package",
+              "version": "[4.8.0, )"
+            },
+            "Microsoft.Extensions.Logging.Abstractions": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "Microsoft.NET.ILLink.Tasks": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.28, )",
+              "autoReferenced": true
+            },
+            "System.ClientModel": {
+              "target": "Package",
+              "version": "[1.4.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.28, 8.0.28]"
+            },
+            {
+              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+              "version": "[8.0.28, 8.0.28]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.28, 8.0.28]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Runtime.win-x64",
+              "version": "[8.0.28, 8.0.28]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/10.0.109/PortableRuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

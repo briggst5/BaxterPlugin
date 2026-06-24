@@ -1,0 +1,31 @@
+name: Build GQP MCP binaries
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "gqp-mcp-v*"
+
+jobs:
+  build-binaries:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Build Linux + Windows GQP MCP binaries
+        working-directory: plugins/baxter-gqp
+        run: |
+          chmod +x scripts/build-gqp-binaries.sh
+          ./scripts/build-gqp-binaries.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gqp-mcp-binaries
+          path: |
+            plugins/baxter-gqp/bin/linux-x64/
+            plugins/baxter-gqp/bin/win-x64/

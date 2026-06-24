@@ -28,6 +28,11 @@
       "description": "Standalone Polarion MCP server for Linux and Windows with bundled binaries."
     },
     {
+      "name": "baxter-gqp",
+      "source": "./plugins/baxter-gqp",
+      "description": "GQP/GQT knowledge MCP with compliance advisor skill, citation rule, and bundled .NET binary."
+    },
+    {
       "name": "baxter-flc-platform-sw",
       "source": "./plugins/baxter-flc-platform-sw",
       "description": "FLC platform software review skills, checklists, and rules from ai-skills."

@@ -1,0 +1,80 @@
+# Baxter GQP Knowledge Plugin
+
+Standalone Cursor/Copilot plugin for the **GQP Knowledge MCP** — hybrid RAG search over Baxter GQP/GQT documents, plus skills and rules for **compliance Q&A with verified citations**.
+
+This plugin is **not** related to Polarion or other Baxter MCP plugins. It ships its own `gqp-mcp` .NET binary.
+
+Pair with **`baxter-product-owner`** when answers must also trace to Polarion requirements or ADO delivery items.
+
+## User setup
+
+1. Install `baxter-gqp` from the Baxter Team Marketplace.
+2. Enable **gqp-knowledge** in Cursor ? Settings ? MCP.
+3. Complete **Baxter SSO** in the browser when prompted on first use.
+
+No terminal commands required. The launcher creates `~/.config/gqp-mcp.env` and handles sign-in automatically.
+
+## Compliance features
+
+| Component | Purpose |
+|-----------|---------|
+| `gqp-compliance-advisor` skill | Route compliance questions to the right MCP tools and format cited answers |
+| `gqp-compliance-citations` rule | Require GQP/GQT doc_id, revision, and section citations; flag unsupported claims |
+| `gqp-compliance-reviewer` agent | Audit plans and documents for citation accuracy before gate reviews |
+
+Example prompts:
+
+- "What V&V does GQP-1234 require for software?"
+- "Verify the GQP citations in this design plan"
+- "What deliverables are required if we change the sterilization method?"
+
+## Configuration
+
+`~/.config/gqp-mcp.env` — non-secret settings only. API keys live in Key Vault `kv-flc-copilot` and are fetched at runtime after Entra sign-in.
+
+See the GQP repo [keyvault-setup.md](https://github.com/briggst5/GQP/blob/main/docs/keyvault-setup.md) (or local `docs/keyvault-setup.md` in the GQP project).
+
+## MCP tools
+
+- `search_gqp_documents`
+- `find_testing_requirements`
+- `find_risk_mitigations`
+- `find_security_tasks`
+- `find_required_deliverables`
+- `assess_change_impact`
+- `build_project_plan`
+
+## Troubleshooting
+
+Manual config (if auto-setup fails):
+
+```bash
+node scripts/setup-gqp-env.mjs
+```
+
+Re-authenticate:
+
+```bash
+bin/linux-x64/gqp-mcp authenticate
+# Windows: bin\win-x64\gqp-mcp.exe authenticate
+```
+
+Check auth status:
+
+```bash
+bin/linux-x64/gqp-mcp check-auth
+```
+
+## Maintainer: sync from GQP repo
+
+```bash
+./scripts/sync-gqp-dotnet.sh
+# Or: SOURCE_PATH=/path/to/GQP ./scripts/sync-gqp-dotnet.sh
+# Or: SOURCE_REPO=https://github.com/briggst5/GQP.git ./scripts/sync-gqp-dotnet.sh
+```
+
+Syncs `mcp-servers/dotnet/` from the GQP repo, rebuilds binaries, and runs plugin validation.
+
+Commit updated `mcp-servers/` and `bin/` artifacts after source changes.
+
+Source of truth for MCP logic: GQP repo `mcp-servers/dotnet/`.
