@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+- Add macOS binary support (`osx-arm64`, `osx-x64`) with platform-aware launcher
+- Expand maintainer build script to publish all four target RIDs
+- Update MCP README platform list
+
 ## 0.2.0
 
 - Sync GQP MCP source from upstream (TLS transport, Key Vault bootstrap, credential factory updates)

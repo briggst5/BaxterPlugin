@@ -6,7 +6,7 @@ Standalone MCP server for GQP/GQT document knowledge (RAG over Azure AI Search).
 
 - Runtime: .NET 8 (self-contained in published binaries)
 - Transport: MCP stdio
-- Platforms (v1): `linux-x64`, `win-x64`
+- Platforms (v1): `linux-x64`, `osx-arm64`, `osx-x64`, `win-x64`
 
 ## Tools
 
@@ -37,7 +37,7 @@ bin/linux-x64/gqp-mcp check-auth
 bin/linux-x64/gqp-mcp
 ```
 
-The launcher uses `bin/linux-x64/gqp-mcp` or falls back to `dotnet run` if no binary is built.
+The launcher picks `bin/<rid>/gqp-mcp` for your OS (`linux-x64`, `osx-arm64`, `osx-x64`, or `win-x64`) or falls back to `dotnet run` if no binary is built.
 
 ## Configuration
 

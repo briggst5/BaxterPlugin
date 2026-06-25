@@ -34,9 +34,13 @@ publish_rid() {
 }
 
 publish_rid "linux-x64"
+publish_rid "osx-arm64"
+publish_rid "osx-x64"
 publish_rid "win-x64"
 
 echo ""
 echo "Binaries published:"
 echo "  ${OUT_ROOT}/linux-x64/gqp-mcp"
+echo "  ${OUT_ROOT}/osx-arm64/gqp-mcp"
+echo "  ${OUT_ROOT}/osx-x64/gqp-mcp"
 echo "  ${OUT_ROOT}/win-x64/gqp-mcp.exe"

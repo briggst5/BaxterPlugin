@@ -33,7 +33,13 @@ function isWindows() {
 }
 
 function rid() {
-  return isWindows() ? "win-x64" : "linux-x64";
+  if (isWindows()) {
+    return "win-x64";
+  }
+  if (platform() === "darwin") {
+    return process.arch === "arm64" ? "osx-arm64" : "osx-x64";
+  }
+  return "linux-x64";
 }
 
 function binaryName() {
@@ -104,7 +110,7 @@ function main() {
   if (!existsSync(binary)) {
     console.error("GQP MCP binary is missing from this plugin build.");
     console.error(`Expected bundled binary: ${binary}`);
-    console.error("Maintainers must bundle prebuilt binaries for linux-x64 and win-x64.");
+    console.error("Maintainers must bundle prebuilt binaries for linux-x64, osx-arm64, osx-x64, and win-x64.");
     process.exit(1);
   }
 
