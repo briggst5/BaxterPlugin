@@ -36,6 +36,11 @@
       "name": "baxter-flc-platform-sw",
       "source": "./plugins/baxter-flc-platform-sw",
       "description": "FLC platform software review skills, checklists, and rules from ai-skills."
+    },
+    {
+      "name": "baxter-ux",
+      "source": "./plugins/baxter-ux",
+      "description": "Baxter Nexus DLS: Zero Height exports, Figma reference, and scoped UI rules."
     }
   ]
 }

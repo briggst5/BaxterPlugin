@@ -1,0 +1,38 @@
+---
+description: Points UI work to Baxter Nexus DLS reference material in this plugin
+alwaysApply: true
+---
+
+# Baxter Nexus DLS Authority
+
+When implementing or reviewing UI, use this plugin as the design reference.
+
+## Reference material
+
+| Source | Location |
+|--------|----------|
+| Design tokens | `design-system/tokens.md` |
+| Component catalog | `design-system/components.md` |
+| Web adaptations | `design-system/web-mapping.md` |
+| Zero Height pages | `design-system/pages/*.md` |
+| Navigation index | `design-system/nav-manifest.json` |
+| Figma exports | `figma/` (see `figma/README.md`) |
+
+## Scoped rules
+
+Apply automatically by file type via sibling rules:
+
+- `nexus-dls-foundations` — CSS and Razor tokens/typography
+- `nexus-dls-components` — Bootstrap component patterns in `.cshtml`
+- `nexus-dls-layout` — shared layout shells and partials
+- `nexus-dls-accessibility` — clinical UI accessibility requirements
+
+## Figma live source
+
+[Nexus Web](https://www.figma.com/design/L5MvUzq1j2M8xZj8Svkdqt/Nexus-Web) — component pages for Button, Navigation, Page Header, Controls, Table, and Notification & Feedback.
+
+Web implementation uses Bootstrap + project `nexus-tokens.css` (not embedded-only device patterns).
+
+## Sync
+
+Run `scripts/sync-dls.sh` or use the `sync-dls` skill when Zero Height or Figma exports are updated.

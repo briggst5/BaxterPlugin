@@ -1,0 +1,45 @@
+---
+description: Nexus DLS layout patterns for shared Razor shells and partials
+globs: "**/Pages/Shared/**"
+alwaysApply: false
+---
+
+# Nexus DLS Layout
+
+Authority: `design-system/web-mapping.md`.
+
+## Stylesheet order in layouts
+
+1. Bootstrap
+2. `nexus-tokens.css`
+3. `site.css`
+4. Scoped bundle (if present)
+
+## Portal body classes
+
+Set `ViewData["Portal"]` to drive theming:
+
+- `portal-body-customer` — primary blue accent
+- `portal-body-admin` — neutral dark accent
+- `portal-body-home` — landing page
+
+## Navbar
+
+Use `navbar navbar-expand-sm portal-navbar` with `navbar-brand` and `nav-link`. Footer: `portal-footer border-top`.
+
+## Login layout
+
+Center with `login-page` body + `login-shell` > `login-card card nexus-card`.
+
+## Schema forms
+
+Group fields in `card mb-4 nexus-card` with `card-header` (title) and `card-body`.
+
+```html
+<div class="card mb-4 nexus-card">
+  <div class="card-header">
+    <h2 class="h5 mb-0">Group title</h2>
+  </div>
+  <div class="card-body">...</div>
+</div>
+```

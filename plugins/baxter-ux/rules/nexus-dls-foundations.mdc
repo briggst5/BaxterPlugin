@@ -1,0 +1,40 @@
+---
+description: Nexus DLS color, typography, spacing, and token usage for CSS and Razor
+globs: "**/*.{css,cshtml}"
+alwaysApply: false
+---
+
+# Nexus DLS Foundations
+
+Authority: `design-system/tokens.md` and `wwwroot/css/nexus-tokens.css`.
+
+## Colors
+
+Use CSS custom properties — never hardcode hex in Razor or CSS.
+
+```css
+/* BAD */
+.portal-card { border-top: 4px solid #0d6efd; }
+
+/* GOOD */
+.portal-card-customer { border-top: 4px solid var(--customer-accent); }
+```
+
+Primary `#2265c9`, neutral `#212121`, background `#F6F6F7`, border `#EDEEF0`.
+
+## Typography
+
+- Font: DM Sans (loaded in `nexus-tokens.css`)
+- Page titles: `h1` / `display-5 fw-semibold`
+- Section labels: `nexus-section-label` or `h6 text-uppercase text-nexus-muted`
+- Body secondary copy: `text-nexus-muted` (not raw `text-secondary` for new work)
+
+## Spacing
+
+Use Bootstrap spacing utilities (`mb-3`, `g-4`, `py-3`) aligned to Nexus scale in tokens.
+
+## Do not use
+
+- Hardcoded `#0d6efd`, `#1b6ec2`, `#212529`
+- Overrides in `_Layout.cshtml.css` that conflict with `nexus-tokens.css`
+- Inline `style="..."` for layout width — use `nexus-form-narrow`
