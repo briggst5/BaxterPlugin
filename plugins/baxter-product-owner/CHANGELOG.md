@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- Republish PO/RTE agents for marketplace deployment: `po-coach`, `rte-coordinator`, `readiness-gatekeeper`, `metrics-analyst`, `stakeholder-brief-writer`, `traceability-auditor`
+
 ## 0.1.2
 
 - Moved Polarion MCP to standalone **baxter-polarion** plugin

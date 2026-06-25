@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+- Republish `security-review` agent for marketplace deployment
+
 ## 0.1.1
 
 - Add `cve-impact-analysis` skill: authoritative CVE lookup, codebase exposure check, and Yocto patch verification
