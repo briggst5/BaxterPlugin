@@ -1,6 +1,6 @@
 # Baxter GQP Knowledge Plugin
 
-Standalone Cursor/Copilot plugin for the **GQP Knowledge MCP** ó hybrid RAG search over Baxter GQP/GQT documents, plus skills and rules for **compliance Q&A with verified citations**.
+Standalone Cursor/Copilot plugin for the **GQP Knowledge MCP** ù hybrid RAG search over Baxter GQP/GQT documents, plus skills and rules for **compliance Q&A with verified citations**.
 
 This plugin is **not** related to Polarion or other Baxter MCP plugins. It ships its own `gqp-mcp` .NET binary.
 
@@ -10,9 +10,9 @@ Pair with **`baxter-product-owner`** when answers must also trace to Polarion re
 
 1. Install `baxter-gqp` from the Baxter Team Marketplace.
 2. Enable **gqp-knowledge** in Cursor ? Settings ? MCP.
-3. Complete **Baxter SSO** in the browser when prompted on first use.
+3. On first use, complete **Baxter sign-in** via device code (shown in MCP logs) ù no custom IT Entra app required.
 
-No terminal commands required. The launcher creates `~/.config/gqp-mcp.env` and handles sign-in automatically.
+No terminal commands required. The launcher creates `~/.config/gqp-mcp.env` and handles sign-in automatically. Alternatively, run `az login` once if you already use Azure CLI.
 
 ## Compliance features
 
@@ -30,7 +30,7 @@ Example prompts:
 
 ## Configuration
 
-`~/.config/gqp-mcp.env` ó non-secret settings only. API keys live in Key Vault `kv-flc-copilot` and are fetched at runtime after Entra sign-in.
+`~/.config/gqp-mcp.env` - non-secret settings only. End users authenticate with Entra RBAC to Azure Search and OpenAI; maintainers may set `GQP_KEYVAULT_NAME=kv-flc-copilot` to load API keys from Key Vault.
 
 See the GQP repo [keyvault-setup.md](https://github.com/briggst5/GQP/blob/main/docs/keyvault-setup.md) (or local `docs/keyvault-setup.md` in the GQP project).
 
@@ -55,8 +55,8 @@ node scripts/setup-gqp-env.mjs
 Re-authenticate:
 
 ```bash
-bin/linux-x64/gqp-mcp authenticate
-# Windows: bin\win-x64\gqp-mcp.exe authenticate
+bin/linux-x64/gqp-mcp authenticate --device-code
+# Windows: bin\win-x64\gqp-mcp.exe authenticate --device-code
 ```
 
 Check auth status:

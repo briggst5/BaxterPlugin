@@ -1786,7 +1786,7 @@
     ]
   },
   "packageFolders": {
-    "/tmp/cursor-sandbox-cache/19d04efc650a181915b506dcd906ca36/nuget": {}
+    "/tmp/cursor-sandbox-cache/44d1cb0d141bef4c6a0cca7625535837/nuget": {}
   },
   "project": {
     "version": "1.0.0",
@@ -1794,7 +1794,7 @@
       "projectUniqueName": "/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core.Tests/GqpMcp.Core.Tests.csproj",
       "projectName": "GqpMcp.Core.Tests",
       "projectPath": "/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core.Tests/GqpMcp.Core.Tests.csproj",
-      "packagesPath": "/tmp/cursor-sandbox-cache/19d04efc650a181915b506dcd906ca36/nuget",
+      "packagesPath": "/tmp/cursor-sandbox-cache/44d1cb0d141bef4c6a0cca7625535837/nuget",
       "outputPath": "/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core.Tests/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [

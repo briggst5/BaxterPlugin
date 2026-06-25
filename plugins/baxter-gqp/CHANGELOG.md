@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.1
+
+- Device-code auth default — no custom IT Entra app or localhost redirect required
+- End-user template uses Entra RBAC to Azure Search/OpenAI (Key Vault optional for maintainers)
+- Credential chain: Azure CLI → device-code → DefaultAzureCredential → browser last
+- Rebuilt bundled binaries for linux-x64, osx-arm64, osx-x64, win-x64
+
 ## 0.3.0
 
 - Add macOS binary support (`osx-arm64`, `osx-x64`) with platform-aware launcher

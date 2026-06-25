@@ -5,18 +5,12 @@ namespace GqpMcp.Core;
 
 public static class GqpCredentialFactory
 {
-    private static readonly string[] WarmUpScopes =
-    [
-        "https://vault.azure.net/.default",
-        "https://cognitiveservices.azure.com/.default",
-        "https://search.azure.com/.default",
-    ];
-
-    private const string CheckAuthScope = "https://vault.azure.net/.default";
+    private const string VaultScope = "https://vault.azure.net/.default";
+    private const string CognitiveServicesScope = "https://cognitiveservices.azure.com/.default";
+    private const string SearchScope = "https://search.azure.com/.default";
 
     /// <summary>
-    /// For MCP stdio runtime ó uses cached tokens, Azure CLI, IDE login, then silent browser cache.
-    /// Browser opens only when no cached Entra token exists (e.g. after expiry).
+    /// For MCP stdio runtime ù Azure CLI, IDE login, then browser cache as last resort.
     /// </summary>
     public static TokenCredential CreateRuntimeTokenCredential(GqpOptions options)
     {
@@ -28,33 +22,39 @@ public static class GqpCredentialFactory
                 ExcludeManagedIdentityCredential = true,
                 ExcludeInteractiveBrowserCredential = true,
             }),
-            CreateBrowserCredential(options),
         };
+
+        if (ShouldIncludeBrowserCredential(options))
+        {
+            chain.Add(CreateBrowserCredential(options));
+        }
 
         return new ChainedTokenCredential(chain.ToArray());
     }
 
     /// <summary>
-    /// For `gqp-mcp authenticate` ó browser or device-code login.
+    /// For `gqp-mcp authenticate` ù Azure CLI, device-code, DAC, then browser last.
     /// </summary>
     public static TokenCredential CreateInteractiveTokenCredential(GqpOptions options, bool useDeviceCode = false)
     {
-        var chain = new List<TokenCredential> { CreateBrowserCredential(options) };
+        var mode = ResolveAuthMode(options, useDeviceCode);
+        var chain = new List<TokenCredential> { new AzureCliCredential() };
 
-        if (useDeviceCode)
+        if (mode is GqpAuthMode.DeviceCode or GqpAuthMode.Auto)
         {
-            chain.Add(new DeviceCodeCredential(new DeviceCodeCredentialOptions
-            {
-                TenantId = options.AzureTenantId,
-                ClientId = options.AzureClientId,
-            }));
+            chain.Add(CreateDeviceCodeCredential(options));
         }
 
-        chain.Add(new AzureCliCredential());
         chain.Add(new DefaultAzureCredential(new DefaultAzureCredentialOptions
         {
             ExcludeManagedIdentityCredential = true,
+            ExcludeInteractiveBrowserCredential = true,
         }));
+
+        if (mode is GqpAuthMode.Browser or GqpAuthMode.Auto)
+        {
+            chain.Add(CreateBrowserCredential(options));
+        }
 
         return new ChainedTokenCredential(chain.ToArray());
     }
@@ -66,7 +66,11 @@ public static class GqpCredentialFactory
         try
         {
             var credential = CreateRuntimeTokenCredential(options);
-            await credential.GetTokenAsync(new TokenRequestContext([CheckAuthScope]), cancellationToken);
+            foreach (var scope in GetWarmUpScopes(options))
+            {
+                await credential.GetTokenAsync(new TokenRequestContext([scope]), cancellationToken);
+            }
+
             return true;
         }
         catch (Exception)
@@ -75,12 +79,70 @@ public static class GqpCredentialFactory
         }
     }
 
-    public static async Task WarmUpAsync(TokenCredential credential, CancellationToken cancellationToken)
+    public static async Task WarmUpAsync(GqpOptions options, TokenCredential credential, CancellationToken cancellationToken)
     {
-        foreach (var scope in WarmUpScopes)
+        foreach (var scope in GetWarmUpScopes(options))
         {
             await credential.GetTokenAsync(new TokenRequestContext([scope]), cancellationToken);
         }
+    }
+
+    public static IReadOnlyList<string> GetWarmUpScopes(GqpOptions options)
+    {
+        var scopes = new List<string>();
+        if (!string.IsNullOrWhiteSpace(options.KeyVaultName))
+        {
+            scopes.Add(VaultScope);
+        }
+
+        scopes.Add(CognitiveServicesScope);
+        scopes.Add(SearchScope);
+        return scopes;
+    }
+
+    public static GqpAuthMode ResolveAuthMode(GqpOptions options, bool deviceCodeFlag)
+    {
+        if (deviceCodeFlag)
+        {
+            return GqpAuthMode.DeviceCode;
+        }
+
+        return options.AuthMode switch
+        {
+            GqpAuthMode.Browser => GqpAuthMode.Browser,
+            GqpAuthMode.DeviceCode => GqpAuthMode.DeviceCode,
+            _ when string.IsNullOrWhiteSpace(options.AzureClientId) => GqpAuthMode.DeviceCode,
+            _ => GqpAuthMode.Auto,
+        };
+    }
+
+    private static bool ShouldIncludeBrowserCredential(GqpOptions options) =>
+        options.AuthMode is GqpAuthMode.Browser or GqpAuthMode.Auto
+        && !string.IsNullOrWhiteSpace(options.AzureClientId);
+
+    private static DeviceCodeCredential CreateDeviceCodeCredential(GqpOptions options)
+    {
+        var deviceOptions = new DeviceCodeCredentialOptions
+        {
+            TenantId = options.AzureTenantId,
+            DeviceCodeCallback = (code, cancellation) =>
+            {
+                Console.Error.WriteLine();
+                Console.Error.WriteLine("GQP MCP: Baxter sign-in required.");
+                Console.Error.WriteLine($"  Open {code.VerificationUri} in your browser");
+                Console.Error.WriteLine($"  Enter code: {code.UserCode}");
+                Console.Error.WriteLine("  (Also visible in Cursor Settings ? MCP ? gqp-knowledge logs)");
+                Console.Error.WriteLine();
+                return Task.CompletedTask;
+            },
+        };
+
+        if (!string.IsNullOrWhiteSpace(options.AzureClientId))
+        {
+            deviceOptions.ClientId = options.AzureClientId;
+        }
+
+        return new DeviceCodeCredential(deviceOptions);
     }
 
     private static InteractiveBrowserCredential CreateBrowserCredential(GqpOptions options)
@@ -89,9 +151,16 @@ public static class GqpCredentialFactory
         {
             TenantId = options.AzureTenantId,
             ClientId = options.AzureClientId,
-            RedirectUri = new Uri("http://localhost"),
+            RedirectUri = new Uri(options.AzureRedirectUri),
         };
 
         return new InteractiveBrowserCredential(browserOptions);
     }
+}
+
+public enum GqpAuthMode
+{
+    Auto,
+    Browser,
+    DeviceCode,
 }

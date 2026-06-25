@@ -4,18 +4,18 @@
     <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
-    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">/tmp/cursor-sandbox-cache/19d04efc650a181915b506dcd906ca36/nuget</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">/tmp/cursor-sandbox-cache/19d04efc650a181915b506dcd906ca36/nuget</NuGetPackageFolders>
+    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">/tmp/cursor-sandbox-cache/44d1cb0d141bef4c6a0cca7625535837/nuget</NuGetPackageRoot>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">/tmp/cursor-sandbox-cache/44d1cb0d141bef4c6a0cca7625535837/nuget</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">7.0.0</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <SourceRoot Include="/tmp/cursor-sandbox-cache/19d04efc650a181915b506dcd906ca36/nuget/" />
+    <SourceRoot Include="/tmp/cursor-sandbox-cache/44d1cb0d141bef4c6a0cca7625535837/nuget/" />
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)/microsoft.net.illink.tasks/8.0.28/build/Microsoft.NET.ILLink.Tasks.props" Condition="Exists('$(NuGetPackageRoot)/microsoft.net.illink.tasks/8.0.28/build/Microsoft.NET.ILLink.Tasks.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgMicrosoft_NET_ILLink_Tasks Condition=" '$(PkgMicrosoft_NET_ILLink_Tasks)' == '' ">/tmp/cursor-sandbox-cache/19d04efc650a181915b506dcd906ca36/nuget/microsoft.net.illink.tasks/8.0.28</PkgMicrosoft_NET_ILLink_Tasks>
+    <PkgMicrosoft_NET_ILLink_Tasks Condition=" '$(PkgMicrosoft_NET_ILLink_Tasks)' == '' ">/tmp/cursor-sandbox-cache/44d1cb0d141bef4c6a0cca7625535837/nuget/microsoft.net.illink.tasks/8.0.28</PkgMicrosoft_NET_ILLink_Tasks>
   </PropertyGroup>
 </Project>

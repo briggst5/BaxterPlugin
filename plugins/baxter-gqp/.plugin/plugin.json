@@ -1,7 +1,7 @@
 {
   "name": "baxter-gqp",
   "description": "GQP/GQT document knowledge MCP with compliance advisor skills, citation rules, and bundled .NET binary. Auth via Entra and Key Vault (kv-flc-copilot).",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": {
     "name": "Baxter Engineering"
   },

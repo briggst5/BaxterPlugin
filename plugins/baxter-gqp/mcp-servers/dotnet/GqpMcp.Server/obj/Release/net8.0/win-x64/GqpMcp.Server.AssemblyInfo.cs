@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("gqp-mcp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ab41a90be09cf001999f56f89d7a8371c6e5537f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+87aeb4070f31d9fcf78b126efff73a7bce4a5579")]
 [assembly: System.Reflection.AssemblyProductAttribute("gqp-mcp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("gqp-mcp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

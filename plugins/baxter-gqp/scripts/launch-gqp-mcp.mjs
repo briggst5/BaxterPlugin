@@ -6,7 +6,7 @@
  * - Requires vendored self-contained binary under bin/<rid>/gqp-mcp[.exe]
  * - Never builds or compiles on user machines
  *
- * On first use: creates ~/.config/gqp-mcp.env and opens browser for Baxter SSO.
+ * On first use: creates ~/.config/gqp-mcp.env and runs device-code Baxter SSO.
  */
 import { spawnSync } from "node:child_process";
 import { chmodSync, copyFileSync, existsSync, mkdirSync } from "node:fs";
@@ -81,8 +81,9 @@ function spawnCommand(cmd, args, { inherit = false } = {}) {
   });
 }
 
-function runSubcommand(binary, subcommand) {
-  const result = spawnCommand(binary, [subcommand], { inherit: subcommand === "authenticate" });
+function runSubcommand(binary, subcommand, extraArgs = []) {
+  const args = [subcommand, ...extraArgs];
+  const result = spawnCommand(binary, args, { inherit: subcommand === "authenticate" });
   if (result.error) {
     console.error(`Failed to run ${binary}: ${result.error.message}`);
     process.exit(1);
@@ -95,8 +96,10 @@ function ensureAuthenticated(binary) {
     return;
   }
 
-  console.error("GQP MCP: opening browser for Baxter SSO sign-in...");
-  if (runSubcommand(binary, "authenticate") !== 0) {
+  console.error("GQP MCP: Baxter sign-in required.");
+  console.error("  A device code will appear below — open https://microsoft.com/devicelogin and enter it.");
+  console.error("  Or run once in a terminal: az login");
+  if (runSubcommand(binary, "authenticate", ["--device-code"]) !== 0) {
     console.error("GQP MCP authentication failed. See messages above.");
     process.exit(1);
   }
