@@ -30,6 +30,7 @@ publish_rid() {
     -r "${rid}" \
     --self-contained true \
     -p:PublishSingleFile=true \
+    -p:EnableCompressionInSingleFile=true \
     -o "${out}"
 }
 

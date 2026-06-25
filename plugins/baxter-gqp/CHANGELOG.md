@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.2
+
+- Enable single-file compression on bundled gqp-mcp binaries (~72 MB → ~37 MB per platform)
+
 ## 0.3.1
 
 - Device-code auth default — no custom IT Entra app or localhost redirect required
