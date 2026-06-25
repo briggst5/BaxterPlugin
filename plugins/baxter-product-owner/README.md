@@ -1,43 +1,80 @@
 # Baxter Product Owner
 
-FutureState SAFe skills, rules, and agents for Product Owners, RTEs, and agile team members — vendored from [ProductOwner](https://github.com/briggst5/ProductOwner).
+FutureState **SAFe** skills, rules, and agents for Product Owners, RTEs, and agile team members — plus **Azure DevOps MCP** for backlog, wiki, and work items.
 
-## Contents
+| | |
+|--|--|
+| **Audience** | PO, RTE, Scrum Master, agile team members |
+| **Install guide** | [docs/INSTALL.md](docs/INSTALL.md) (Linux, macOS, Windows) |
+| **Upstream** | Vendored from [ProductOwner](https://github.com/briggst5/ProductOwner) |
 
-- **26 skills** in `skills/` (PO, RTE, ceremonies, ADO/Polarion stewards)
-- **6 rules** in `rules/` (Cursor only)
-- **6 agents** in `agents/` (PO Coach, RTE Coordinator, etc.)
-- **Process docs** in `docs/` and wiki exports in `reference/`
-- **MCP:** Azure DevOps only (this plugin)
+## Quick start
+
+1. Install **baxter-product-owner** (+ **baxter-polarion** for requirements/traceability).
+2. Create `~/.config/azure-devops-mcp.env` — see [INSTALL.md](docs/INSTALL.md) or `azure-devops-mcp.env.example`.
+3. Enable Azure DevOps MCP in Cursor Settings → MCP.
+4. Try: *"Prepare sprint planning assist for my team"* or *"Run safe-process-navigator — what is our story format?"*
 
 ## Related plugins
 
 | Plugin | Provides |
 |--------|----------|
-| [**baxter-polarion**](../baxter-polarion/) | Polarion MCP server (install alongside this plugin) |
-| **baxter-core** | Org-wide standards |
+| **baxter-core** | Required baseline |
+| [**baxter-polarion**](../baxter-polarion/) | Polarion MCP — required for `polarion-requirements-steward`, `traceability-auditor` |
+| **baxter-gqp** | GQP compliance when answers need quality system citations |
 
-Skills such as `polarion-requirements-steward` and agents like `traceability-auditor` expect **baxter-polarion** to be installed and enabled.
+## Skills (26)
 
-## Azure DevOps MCP
+### Backlog & refinement
 
-Uses `scripts/launch-azure-devops-mcp.mjs` (Node + `npx @azure-devops/mcp`).
+| Skill | Use when |
+|-------|----------|
+| `acceptance-criteria-coach` | Rewrite AC into testable Given/When/Then |
+| `backlog-readiness-audit` | Pre-refinement / pre-PI DoR gate |
+| `backlog-refinement-facilitator` | Refinement pre-read pack |
+| `feature-refinement` | Feature split/merge, PI prep |
+| `story-breakdown` | Decompose Features into INVEST stories |
+| `definition-of-done-check` | Pre-close DoD validation |
 
-Create `~/.config/azure-devops-mcp.env` — see [ProductOwner INSTALL](https://github.com/briggst5/ProductOwner/blob/main/INSTALL.md) (`ADO_ORG=FLC-NPD`, base64 PAT, etc.).
+### PI planning
 
-Requires **Node.js 20+**.
+| Skill | Use when |
+|-------|----------|
+| `pi-planning-prep` | RTE pre-PI readiness |
+| `pi-planning-facilitator` | PI event materials |
+| `pi-objectives-writer` | Draft PI Objectives |
+| `pi-confidence-calculator` | Confidence vote synthesis |
+| `capacity-planner` | Capacity vs load |
+| `wsjf-prioritization` | Feature ranking |
 
-## Wiki refresh
+### Ceremonies & flow
 
-```bash
-python3 scripts/sync_wiki.py
-```
+| Skill | Use when |
+|-------|----------|
+| `daily-standup-prep` | Personal standup brief from ADO |
+| `sprint-planning-assist` | Sprint goal and overcommit flags |
+| `scrum-of-scrums-brief` | ART Sync talking points |
+| `inspect-adapt-synthesis` | I&A workshop synthesis |
+| `solution-demo-prep` | System Demo script outline |
+| `iteration-health-check` | Mid-PI / end-of-iteration health |
 
-Or invoke the `wiki-sync` skill in chat.
+### Tracking & architecture
 
-## Cursor distribution
+| Skill | Use when |
+|-------|----------|
+| `dependency-tracker` | Cross-team dependencies |
+| `impediment-logger` | Structured impediments |
+| `architectural-runway-review` | Enabler vs feature balance |
 
-Optional plugin — set **Default On** for PO/RTE/agile SCIM groups. Set **baxter-polarion** Default On for the same groups.
+### ADO, Polarion, process
+
+| Skill | Use when |
+|-------|----------|
+| `ado-work-item-steward` | Create/update ADO work items |
+| `polarion-requirements-steward` | Polarion SRS, reviews, links |
+| `wiki-sync` | Refresh `reference/wiki/` from Platform.wiki |
+| `safe-process-navigator` | FutureState process questions |
+| `release-notes-draft` | Release notes from completed work |
 
 ## Agents
 
@@ -46,12 +83,36 @@ Optional plugin — set **Default On** for PO/RTE/agile SCIM groups. Set **baxte
 | `po-coach` | Story refinement, prioritization |
 | `rte-coordinator` | PI Planning, ART Sync, dependencies |
 | `traceability-auditor` | Polarion ↔ ADO link audits |
-| `readiness-gatekeeper` | DoR gates before planning |
+| `readiness-gatekeeper` | DoR before planning |
 | `metrics-analyst` | PI metrics and I&A prep |
 | `stakeholder-brief-writer` | Leadership status updates |
 
-## Updating from ProductOwner
+## Rules (Cursor only)
 
-Copy changed files from `../ProductOwner` into this plugin tree (skills, rules, docs, reference, scripts — not Polarion MCP). Bump `version` in both manifest files. See [CONTRIBUTING.md](../../CONTRIBUTING.md).
+Process boundaries: ADO vs Polarion, communication tone, no unapproved status changes, traceability standards, FutureState process. See `rules/` directory.
 
-Polarion MCP updates go to [**baxter-polarion**](../baxter-polarion/README.md).
+## Process documentation
+
+| Resource | Location |
+|----------|----------|
+| Consolidated process summary | `docs/futurestate-process.md` |
+| DoR / DoD checklists | `docs/dor-dod-checklists.md` |
+| Story/feature templates | `docs/templates/` |
+| Wiki exports (synced) | `reference/wiki/` |
+
+## Azure DevOps MCP
+
+Launcher: `scripts/launch-azure-devops-mcp.mjs`  
+Config: `~/.config/azure-devops-mcp.env` — see [INSTALL.md](docs/INSTALL.md).
+
+Requires **Node.js 20+**.
+
+## Maintainers
+
+Copy updates from upstream ProductOwner (skills, rules, docs, scripts — not Polarion MCP). Bump version in both manifest files. Polarion updates go to **baxter-polarion**.
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md).
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).

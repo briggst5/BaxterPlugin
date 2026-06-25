@@ -1,48 +1,81 @@
 # Baxter Core
 
-Required baseline plugin for all Baxter engineers.
+**Required** baseline plugin for all Baxter engineers — org standards, MCP troubleshooting, and shared code review agent.
 
-## Contents
+| | |
+|--|--|
+| **Audience** | Every engineer |
+| **Cursor mode** | Required |
+| **Install guide** | [docs/INSTALL.md](docs/INSTALL.md) (Linux, macOS, Windows) |
 
-- **Skills:** `baxter-standards`, `baxter-mcp-setup`
-- **Rules (Cursor only):** engineering standards, plugin quality gates
-- **Agents:** `baxter-code-reviewer`
-- **MCP:** `baxter-echo` (connectivity example; replace by copying real MCP projects into `mcp-servers/`)
+## Quick start
+
+1. Install **Baxter Core** from the team marketplace.
+2. Run machine bootstrap from BaxterPlugin root: `./scripts/bootstrap-dev-machine.sh` (or `.ps1` on Windows).
+3. Enable **baxter-echo** MCP in Cursor Settings → MCP to verify connectivity.
+
+## What's included
+
+### Skills
+
+| Skill | Use when |
+|-------|----------|
+| `baxter-standards` | Every implementation or review — minimal diffs, conventions, no secrets, meaningful tests |
+| `baxter-mcp-setup` | MCP server disconnected, `uv` missing, or auth env issues |
+
+### Agents
+
+| Agent | Use when |
+|-------|----------|
+| `baxter-code-reviewer` | Pre-PR review for Baxter scope, tests, and security basics |
+
+### Rules (Cursor only)
+
+| Rule | Scope |
+|------|-------|
+| Engineering standards | Always on — diff discipline, imports, TypeScript exhaustive switch |
+| Plugin quality gates | Plugin authoring — manifests, paths, frontmatter |
+
+Copilot users: invoke `baxter-standards` skill — `.mdc` rules are not supported in Copilot.
+
+### MCP servers
+
+| Server | Auth | Purpose |
+|--------|------|---------|
+| `baxter-echo` | None | Connectivity example; first-start `uv sync` |
+
+Manual test: `./scripts/run-mcp-server.sh baxter-echo`
+
+Add production MCP by copying projects into `mcp-servers/` and registering via `./scripts/add-mcp-entry.sh` — see [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 ## Machine prerequisites
 
-Plugin install does **not** install Python or `uv`. Run once per machine:
+Plugin install does **not** install Python or `uv`. Run once per machine from BaxterPlugin root:
 
-```bash
-../../scripts/bootstrap-dev-machine.sh
-```
+| OS | Command |
+|----|---------|
+| Linux / macOS | `./scripts/bootstrap-dev-machine.sh` |
+| Windows | `.\scripts\bootstrap-dev-machine.ps1` |
 
 | Prerequisite | Purpose |
 |--------------|---------|
 | Python 3.10+ | MCP runtime |
-| `uv` on PATH | Lazy `pip` sync on first MCP start |
+| `uv` on PATH | Lazy pip sync on first MCP start |
 
-## MCP servers
+## Related plugins
 
-| Server | Auth | First-start behavior |
-|--------|------|----------------------|
-| `baxter-echo` | None | `uv sync` in `mcp-servers/baxter-echo/` |
+Domain capabilities live in optional plugins — install what your role needs:
 
-Manual test:
+| Plugin | For |
+|--------|-----|
+| baxter-product-owner | SAFe / ADO |
+| baxter-polarion | Polarion MCP |
+| baxter-flc-platform-sw | Code / PR review checklists |
+| baxter-security | CVE / security review |
+| baxter-gqp | GQP compliance |
+| baxter-ux | Nexus DLS |
 
-```bash
-./scripts/run-mcp-server.sh baxter-echo
-```
-
-Copy real MCP projects into `mcp-servers/<name>/` and register with `./scripts/add-mcp-entry.sh` (see repo [CONTRIBUTING.md](../../CONTRIBUTING.md)).
-
-## Cursor vs Copilot
-
-| Component | Cursor manifest | Copilot manifest |
-|-----------|-----------------|------------------|
-| Skills, agents | `.cursor-plugin/plugin.json` | `.plugin/plugin.json` |
-| MCP config | `.mcp.json` (`${CURSOR_PLUGIN_ROOT}`) | `.mcp.copilot.json` (`${PLUGIN_ROOT}`) |
-| Rules | `rules/*.mdc` | Not supported — use `baxter-standards` skill |
+See [getting started](../../docs/getting-started.md) for the full matrix.
 
 ## Changelog
 

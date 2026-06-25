@@ -13,3 +13,27 @@ When creating or editing plugins in this marketplace:
 3. Include YAML frontmatter on skills, rules, and agents with required metadata.
 4. Python MCP servers must use `uv run` via `scripts/run-mcp-server.sh`, not bare `python`.
 5. Bump `version` in plugin manifests when releasing changes.
+
+## Documentation (required with plugin changes)
+
+Update docs in the **same PR** as functional plugin changes. Do not merge behavior changes without doc updates.
+
+| Change type | Update |
+|-------------|--------|
+| New/changed skill, agent, or rule | Plugin `README.md` tables; skill `description` frontmatter |
+| MCP server, auth, or env vars | `docs/INSTALL.md`, env `.example` files, MCP README |
+| New script or setup flow | `docs/INSTALL.md` + verify/troubleshooting sections |
+| User-facing workflow change | `README.md`, [docs/getting-started.md](../../docs/getting-started.md) if cross-plugin |
+| Security or credential setup | INSTALL + troubleshooting (include expiry/renewal when tokens apply) |
+
+**Per-OS installs:** Linux, macOS, and Windows commands live in each plugin's `docs/INSTALL.md`.
+
+**PR checklist:**
+
+- [ ] README reflects current skills/agents/MCP
+- [ ] INSTALL updated if setup, paths, or prerequisites changed
+- [ ] `CHANGELOG.md` entry for the plugin
+- [ ] Cross-links valid (no broken relative paths)
+- [ ] Example prompts still accurate
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md#documentation) for the full documentation standard.

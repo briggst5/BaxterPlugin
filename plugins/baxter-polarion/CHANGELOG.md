@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3
+
+- Document Polarion PAT generation and 90-day expiry in INSTALL, README, and OPERATIONS
+- Note PAT renewal in `polarion-mcp.env.example`
+
 ## 0.1.2
 
 - Synced PolarionMCP `main` at `fe0dc9d` and refreshed bundled linux-x64/win-x64 binaries

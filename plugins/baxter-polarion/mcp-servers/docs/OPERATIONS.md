@@ -45,7 +45,17 @@ chmod 600 ~/.config/polarion-mcp.env
 - `POLARION_USER`
 - One of:
   - `POLARION_PASSWORD`
-  - `POLARION_PAT`
+  - `POLARION_PAT` (recommended)
+
+### Personal Access Token (PAT)
+
+Generate in Polarion: **My Account → Personal Access Token → Generate**.
+
+- Copy the token once when created — it cannot be viewed again.
+- Baxter org default lifetime: **90 days**. Renew before expiry and update `polarion-mcp.env`.
+- If the PAT menu is missing, contact your Polarion administrator.
+
+Full steps: [docs/INSTALL.md](../../docs/INSTALL.md#step-2b--generate-a-polarion-personal-access-token-pat)
 
 ### Recommended baseline (self-signed cert + reconnect)
 

@@ -1,65 +1,88 @@
 # Baxter FLC Platform Software
 
-Optional plugin for FLC platform software engineering — code review, PR review, Kotlin standards, and IEC 62304 Class C requirements workflows.
+Optional plugin for **FLC platform software engineering** — code review, PR review, Kotlin standards, and IEC 62304 Class C requirements workflows.
 
-Vendored from [ai-skills](https://dev.azure.com/FLC-NPD/Proof%20Of%20Concept/_git/ai-skills) (Proof Of Concept project).
+| | |
+|--|--|
+| **Audience** | Platform software, embedded, Kotlin teams |
+| **Install guide** | [docs/INSTALL.md](docs/INSTALL.md) (Linux, macOS, Windows) |
+| **Upstream** | Vendored from [ai-skills](https://dev.azure.com/FLC-NPD/Proof%20Of%20Concept/_git/ai-skills) |
 
-## Contents
+## Quick start
 
-| Component | Location |
-|-----------|----------|
-| **Skills** | `skills/code-review`, `skills/pr-review` |
-| **Checklists** | `checklists/` (11 review frameworks) |
-| **Rules** | `rules/` — foundation standards, Kotlin, IEC 62304 |
-| **Scripts** | `scripts/` — PR diff fetch, AI review automation |
-| **Docs** | `docs/` — Cursor, Copilot, Continue setup guides |
+1. Install plugin from marketplace.
+2. For PR reviews: install Azure CLI + `azure-devops` extension — see [INSTALL.md](docs/INSTALL.md).
+3. Try: *"Review this diff using code-review checklists"* or *"PR review for my open PR"*.
 
-## Skills
+## What's included
+
+### Skills
 
 | Skill | Use when |
 |-------|----------|
 | `code-review` | Reviewing files, diffs, or individual code changes |
 | `pr-review` | Reviewing PRs, branches, or merge readiness |
 
-## Rules
+### Checklists (11 frameworks)
+
+Located in `checklists/` — see [checklists/README.md](checklists/README.md).
+
+| Checklist | Focus |
+|-----------|-------|
+| `code-review-checklist.md` | General code review |
+| `pr-review-checklist.md` | Pull request merge readiness |
+| `class-c-code-checklist.md` | IEC 62304 Class C |
+| Plus Kotlin, security, API, concurrency, etc. | Scoped reviews |
+
+### Rules (Cursor only)
 
 | Rule | Scope |
 |------|-------|
-| `foundation-standards` | Always on — core review checklists |
-| `kotlin-review` | `**/*.kt` — Kotlin-specific checklists |
-| `iec62304-requirements` | Polarion requirements generation/review (Class C) |
+| `foundation-standards` | Always on — points to checklists |
+| `kotlin-review` | `**/*.kt` |
+| `iec62304-requirements` | Polarion Class C requirements (needs **baxter-polarion**) |
+
+### Scripts
+
+| Script | Purpose |
+|--------|---------|
+| `fetch_pr_diff.py` | ADO PR diff fetch |
+| `post_pr_comment.py` | Post review to PR |
+| `run_ai_review.py` | Automated review batch |
+
+### Docs
+
+| Doc | Purpose |
+|-----|---------|
+| [cursor-setup.md](docs/cursor-setup.md) | Project-level Cursor install |
+| [copilot-setup.md](docs/copilot-setup.md) | Copilot parity |
+| [continue-setup.md](docs/continue-setup.md) | Continue IDE |
+| [INTEGRATION_STRATEGY.md](docs/INTEGRATION_STRATEGY.md) | Upstream integration |
 
 ## Prerequisites
 
-**PR Review skill** requires Azure CLI with the Azure DevOps extension:
+| Need | For |
+|------|-----|
+| Azure CLI + `azure-devops` extension | `pr-review` against ADO |
+| **baxter-polarion** | IEC 62304 Polarion workflows |
 
-```bash
-az extension add --name azure-devops
-az devops login --organization https://dev.azure.com/FLC-NPD
-az devops configure --defaults organization=https://dev.azure.com/FLC-NPD project=<your-project>
-```
+## Example prompts
 
-**IEC 62304 requirements** rule expects **baxter-polarion** to be installed for Polarion MCP access.
-
-## Cursor distribution
-
-Set to **Default On** for platform software engineering SCIM groups.
+- "Run code-review on `src/foo.rs`"
+- "PR review — is this branch ready to merge?"
+- "Apply class-c-code-checklist to this module"
 
 ## Updating from ai-skills
-
-When the upstream repo changes, copy updated directories into this plugin and commit:
 
 ```bash
 SRC=/path/to/ai-skills
 PLUGIN=plugins/baxter-flc-platform-sw
-
 cp -r "$SRC/skills/code-review" "$SRC/skills/pr-review" "$PLUGIN/skills/"
 cp -r "$SRC/checklists/"* "$PLUGIN/checklists/"
 cp "$SRC/scripts/"* "$PLUGIN/scripts/"
-cp "$SRC/templates/cursor-project-template/.cursor/rules/"* "$PLUGIN/rules/"
 ```
 
-Re-apply path updates (`.agents/checklists/` → `checklists/`). Bump `version` in both manifest files. Run `./scripts/validate-plugin.sh`.
+Re-apply path fixes (`checklists/` not `.agents/checklists/`). Bump version; run `./scripts/validate-plugin.sh`.
 
 ## Changelog
 
