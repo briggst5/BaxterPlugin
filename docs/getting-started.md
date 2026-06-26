@@ -65,7 +65,7 @@ Required for Azure DevOps MCP, Polarion launcher, and several setup scripts:
 
 1. Cursor → Settings → Plugins → Team Marketplace
 2. Install plugins assigned to your group
-3. Settings → MCP → enable servers for each plugin (e.g. `baxter-echo`, `azure-devops`, `polarion-mcp`, `gqp-knowledge`)
+3. Settings → MCP → enable servers for each domain plugin (e.g. `azure-devops`, `polarion-mcp`, `gqp-knowledge`)
 4. Reload window if skills do not appear
 
 ### Local development (symlink)

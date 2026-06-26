@@ -10,7 +10,7 @@
     {
       "name": "baxter-core",
       "source": "./plugins/baxter-core",
-      "description": "Required baseline plugin: org standards, core skills, shared MCP servers, and agents."
+      "description": "Required baseline plugin: org standards, core skills, and shared agents."
     },
     {
       "name": "baxter-security",

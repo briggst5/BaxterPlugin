@@ -1,17 +1,19 @@
 # Baxter Core — Installation
 
-Required baseline for all Baxter engineers. Covers machine bootstrap, MCP connectivity, and local plugin testing.
+Required baseline for all Baxter engineers. Covers machine bootstrap and local plugin testing.
+
+**MCP:** baxter-core does not include an MCP server. Install domain plugins (ADO, Polarion, GQP) for MCP — see [getting started](../../docs/getting-started.md).
 
 ## Prerequisites
 
 | Requirement | Purpose |
 |-------------|---------|
 | **Cursor** or **VS Code Copilot** with plugins enabled | Host IDE |
-| **Python 3.10+** | Python MCP servers (`uv` runtime) |
-| **uv** | Dependency sync on first MCP start |
+| **Python 3.10+** | Runtime for Python MCP in other plugins |
+| **uv** | Dependency sync on first Python MCP start (other plugins) |
 | **baxter-core** plugin installed | From team marketplace or local symlink |
 
-Node.js is **not** required for baxter-core (only for domain plugins with Node launchers).
+Node.js is only required for plugins with Node launchers (ADO, Polarion, GQP).
 
 ## Step 1 — Install the plugin
 
@@ -66,29 +68,17 @@ uv --version
 
 Enable **Add python.exe to PATH** when installing Python on Windows.
 
-## Step 3 — Enable MCP (baxter-echo)
+## Step 3 — Enable MCP (domain plugins)
 
-1. Cursor → **Settings** → **MCP**
-2. Enable **baxter-echo** (connectivity smoke test)
-3. First start runs `uv sync` in `mcp-servers/baxter-echo/` (30–60 seconds)
+Install and enable MCP from the plugin that matches your role:
 
-### Manual MCP test
+| Plugin | MCP server | Install guide |
+|--------|------------|---------------|
+| baxter-product-owner | Azure DevOps | [INSTALL](../../baxter-product-owner/docs/INSTALL.md) |
+| baxter-polarion | polarion-mcp | [INSTALL](../../baxter-polarion/docs/INSTALL.md) |
+| baxter-gqp | gqp-knowledge | [INSTALL](../../baxter-gqp/docs/INSTALL.md) |
 
-**Linux / macOS:**
-
-```bash
-cd plugins/baxter-core
-./scripts/run-mcp-server.sh baxter-echo
-```
-
-**Windows:**
-
-```powershell
-cd plugins\baxter-core
-.\scripts\run-mcp-server.ps1 baxter-echo
-```
-
-Expected: server starts without `ModuleNotFoundError` or `uv: command not found`.
+Cursor → **Settings** → **MCP** → enable the servers for your installed plugins.
 
 ## Step 4 — Verify skills and agents
 
@@ -109,15 +99,15 @@ In Cursor chat:
 |---------|--------|---------|
 | Skills / agents | Yes | Yes |
 | `.mdc` rules | Yes | No — use `baxter-standards` skill |
-| MCP | `.mcp.json` | `.mcp.copilot.json` |
+| MCP | Via domain plugins | Via domain plugins |
 
 ## Troubleshooting
 
 | Symptom | Fix |
 |---------|-----|
-| MCP red / failed to create client | Run `baxter-mcp-setup` skill in chat |
+| MCP red / failed to create client | Run `baxter-mcp-setup` skill; check domain plugin INSTALL |
 | `uv: command not found` | Re-run bootstrap; add local bin to PATH |
-| `ModuleNotFoundError` on MCP start | Delete `~/.cache/uv` for baxter-echo project; retry |
+| `ModuleNotFoundError` on MCP start | Delete `~/.cache/uv` for that MCP project; retry |
 | First MCP start slow | Normal — `uv` syncing dependencies |
 
 ## Related

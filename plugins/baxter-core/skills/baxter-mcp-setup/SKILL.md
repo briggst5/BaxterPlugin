@@ -27,12 +27,13 @@ Requires:
 
 1. Confirm the Baxter plugin is installed and MCP server is enabled in IDE settings.
 2. Check IDE MCP logs (Cursor: Settings → MCP → server logs; VS Code: Output panel).
-3. Run the server manually from the installed plugin directory:
+3. Run the server manually from the **installed domain plugin** (example: Polarion):
 
 ```bash
-cd "$(dirname "$(readlink -f ~/.cursor/plugins/cache/*/baxter-core/*/scripts/run-mcp-server.sh 2>/dev/null || echo plugins/baxter-core/scripts/run-mcp-server.sh)")/.."
-./scripts/run-mcp-server.sh baxter-echo
+node ~/.cursor/plugins/cache/briggst5-baxterplugin/baxter-polarion/*/scripts/launch-polarion-mcp.mjs
 ```
+
+For Python MCP, use that plugin's `run-mcp-server.sh` if present.
 
 4. If `uv` is missing, run `bootstrap-dev-machine.sh`.
 5. First start may take 30–60s while `uv` syncs Python dependencies.

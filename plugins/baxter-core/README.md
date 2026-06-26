@@ -1,6 +1,6 @@
 # Baxter Core
 
-**Required** baseline plugin for all Baxter engineers — org standards, MCP troubleshooting, and shared code review agent.
+**Required** baseline plugin for all Baxter engineers — org standards, MCP troubleshooting skill, and shared code review agent.
 
 | | |
 |--|--|
@@ -12,7 +12,7 @@
 
 1. Install **Baxter Core** from the team marketplace.
 2. Run machine bootstrap from BaxterPlugin root: `./scripts/bootstrap-dev-machine.sh` (or `.ps1` on Windows).
-3. Enable **baxter-echo** MCP in Cursor Settings → MCP to verify connectivity.
+3. Install domain plugins for MCP (ADO, Polarion, GQP) per your role — see [getting started](../../docs/getting-started.md).
 
 ## What's included
 
@@ -40,31 +40,26 @@ Copilot users: invoke `baxter-standards` skill — `.mdc` rules are not supporte
 
 ### MCP servers
 
-| Server | Auth | Purpose |
-|--------|------|---------|
-| `baxter-echo` | None | Connectivity example; first-start `uv sync` |
+**baxter-core** does not ship an MCP server. Use domain plugins:
 
-Manual test: `./scripts/run-mcp-server.sh baxter-echo`
+| Plugin | MCP server |
+|--------|------------|
+| baxter-product-owner | Azure DevOps |
+| baxter-polarion | polarion-mcp |
+| baxter-gqp | gqp-knowledge |
 
-Add production MCP by copying projects into `mcp-servers/` and registering via `./scripts/add-mcp-entry.sh` — see [CONTRIBUTING.md](../../CONTRIBUTING.md).
+Maintainers adding Python MCP to this plugin: copy projects into `mcp-servers/` and register via `./scripts/add-mcp-entry.sh` — see [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 ## Machine prerequisites
 
-Plugin install does **not** install Python or `uv`. Run once per machine from BaxterPlugin root:
+Bootstrap installs **Python 3.10+** and **uv** for Python-based MCP servers in other Baxter plugins:
 
 | OS | Command |
 |----|---------|
 | Linux / macOS | `./scripts/bootstrap-dev-machine.sh` |
 | Windows | `.\scripts\bootstrap-dev-machine.ps1` |
 
-| Prerequisite | Purpose |
-|--------------|---------|
-| Python 3.10+ | MCP runtime |
-| `uv` on PATH | Lazy pip sync on first MCP start |
-
 ## Related plugins
-
-Domain capabilities live in optional plugins — install what your role needs:
 
 | Plugin | For |
 |--------|-----|

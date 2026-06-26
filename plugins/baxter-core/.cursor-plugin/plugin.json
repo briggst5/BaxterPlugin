@@ -1,8 +1,8 @@
 {
   "name": "baxter-core",
   "displayName": "Baxter Core",
-  "version": "0.1.1",
-  "description": "Required Baxter baseline: org standards, core skills, shared MCP servers, and agents for all engineers.",
+  "version": "0.1.2",
+  "description": "Required Baxter baseline: org standards, core skills, and shared agents for all engineers.",
   "author": {
     "name": "Baxter Engineering"
   },
@@ -17,6 +17,5 @@
   "skills": "./skills/",
   "rules": "./rules/",
   "agents": "./agents/",
-  "mcpServers": "./.mcp.json",
   "hooks": "./hooks/cursor-hooks.json"
 }
