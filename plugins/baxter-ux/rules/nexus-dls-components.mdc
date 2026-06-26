@@ -1,0 +1,50 @@
+---
+description: Nexus DLS component patterns mapped to Bootstrap in Razor pages
+globs: "**/*.cshtml"
+alwaysApply: false
+---
+
+# Nexus DLS Components
+
+Authority: `design-system/components.md`.
+
+## Buttons
+
+| Intent | Class |
+|--------|-------|
+| Customer / primary action | `btn btn-primary` |
+| Admin / neutral action | `btn btn-secondary` |
+| Secondary action | `btn btn-outline-primary` or `btn btn-outline-secondary` |
+| Destructive | `btn btn-danger` or `btn btn-outline-danger` |
+| Compact table action | `btn btn-sm btn-outline-secondary` |
+
+```html
+<!-- BAD: legacy admin pattern -->
+<button type="submit" class="btn btn-dark">Create</button>
+
+<!-- GOOD: Nexus neutral -->
+<button type="submit" class="btn btn-secondary">Create</button>
+```
+
+Do not use `btn-dark` or `btn-outline-dark`.
+
+## Forms
+
+```html
+<div class="mb-3">
+  <label asp-for="Input.Email" class="form-label">Email</label>
+  <input asp-for="Input.Email" class="form-control" />
+  <span asp-validation-for="Input.Email" class="text-danger"></span>
+</div>
+```
+
+## Cards & alerts
+
+- Cards: `card portal-card nexus-card`
+- Errors: `alert alert-danger`
+- Success: `alert alert-success`
+- Prototype notices: `alert alert-warning`
+
+## Tables
+
+Use `table table-hover` with default Bootstrap markup; header styling comes from `nexus-tokens.css`.

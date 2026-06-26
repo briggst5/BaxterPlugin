@@ -1,8 +1,8 @@
 {
   "name": "baxter-security",
   "displayName": "Baxter Security",
-  "version": "0.1.1",
-  "description": "Optional security domain plugin for security review skills and agents.",
+  "version": "0.2.0",
+  "description": "Security domain plugin: CVE/NVD triage, CWE analysis, SBOM review, KEV tracking, and threat modeling skills.",
   "author": {
     "name": "Baxter Engineering"
   },

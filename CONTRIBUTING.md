@@ -92,6 +92,7 @@ cp -r "$PO/reference/"* "$PLUGIN/reference/"
 - [ ] `./scripts/validate-plugin.sh` passes
 - [ ] Plugin `version` bumped where contents changed
 - [ ] `CHANGELOG.md` updated
+- [ ] **Documentation updated** (README, INSTALL if setup changed, getting-started if cross-plugin) — see Documentation section below
 - [ ] MCP README documents any new auth/env requirements
 - [ ] PR reviewed; merge to default branch for Cursor Auto Refresh
 
@@ -101,3 +102,34 @@ cp -r "$PO/reference/"* "$PLUGIN/reference/"
 - Build Polarion MCP locally (baxter-polarion requires bundled binaries in `bin/linux-x64` and `bin/win-x64`)
 
 See [README.md](README.md) for Enterprise rollout steps.
+
+## Documentation
+
+User-facing docs live in each plugin and the repo `docs/` folder. **Update documentation in the same PR as plugin changes** — the `plugin-quality-gates` rule enforces this for edits under `plugins/`.
+
+When adding or changing a plugin:
+
+| Document | Location | Contents |
+|----------|----------|----------|
+| **README.md** | `plugins/<name>/README.md` | Audience, quick start, skill/agent tables, related plugins |
+| **INSTALL.md** | `plugins/<name>/docs/INSTALL.md` | Linux, macOS, Windows setup, env files, verify, troubleshoot |
+| **Getting started** | `docs/getting-started.md` | Cross-plugin onboarding hub |
+
+### README checklist
+
+- [ ] One-line audience and link to INSTALL.md
+- [ ] Quick start (3 steps max)
+- [ ] Tables for skills, agents, rules, MCP
+- [ ] Related plugins and example chat prompts
+- [ ] Maintainer sync instructions (if vendored)
+
+### INSTALL.md checklist
+
+- [ ] Prerequisites table
+- [ ] Config file paths for Linux/macOS and Windows
+- [ ] Step-by-step with commands per OS where they differ
+- [ ] WSL2 note when env files matter
+- [ ] Verify step and troubleshooting table
+
+Run `./scripts/validate-plugin.sh` — it does not lint docs, but keep paths relative and valid.
+

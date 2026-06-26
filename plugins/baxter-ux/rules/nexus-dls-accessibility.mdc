@@ -1,0 +1,35 @@
+---
+description: Nexus DLS accessibility requirements for Razor UI
+globs: "**/*.cshtml"
+alwaysApply: false
+---
+
+# Nexus DLS Accessibility
+
+Authority: Embedded UI heuristics in `design-system/pages/heuristics-clinical-ui.md`.
+
+## Focus
+
+Focus rings use `--nexus-color-primary-focus` via Bootstrap focus styles. Do not remove `:focus` outlines.
+
+## Labels
+
+Every input must have an associated `form-label` with matching `for` / `id`, or `form-check-label` for checkboxes.
+
+## Alerts
+
+Use `role="alert"` for error and success messages.
+
+```html
+<div class="alert alert-danger" role="alert">@Model.ErrorMessage</div>
+```
+
+## Color contrast
+
+Use token colors only. Primary text on white meets contrast via `#212121`. Secondary copy uses `text-nexus-muted` (`#606774`).
+
+## Do not
+
+- Use color alone to convey state (pair with text or icons)
+- Omit labels on visible form fields
+- Disable focus indicators for aesthetic reasons

@@ -1,7 +1,7 @@
 {
   "name": "baxter-core",
   "displayName": "Baxter Core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Required Baxter baseline: org standards, core skills, shared MCP servers, and agents for all engineers.",
   "author": {
     "name": "Baxter Engineering"

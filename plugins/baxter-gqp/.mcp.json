@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "gqp-knowledge": {
+      "command": "node",
+      "args": [
+        "${CURSOR_PLUGIN_ROOT}/scripts/launch-gqp-mcp.mjs"
+      ]
+    }
+  }
+}

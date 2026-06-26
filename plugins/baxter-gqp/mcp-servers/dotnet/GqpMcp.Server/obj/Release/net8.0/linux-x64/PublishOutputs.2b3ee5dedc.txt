@@ -1,0 +1,3 @@
+/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/bin/linux-x64/gqp-mcp.pdb
+/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/bin/linux-x64/GqpMcp.Core.pdb
+/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/bin/linux-x64/gqp-mcp

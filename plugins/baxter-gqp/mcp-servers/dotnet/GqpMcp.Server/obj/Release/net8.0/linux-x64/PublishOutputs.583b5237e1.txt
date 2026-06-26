@@ -1,0 +1,3 @@
+/tmp/gqp-build/linux-x64/gqp-mcp.pdb
+/tmp/gqp-build/linux-x64/GqpMcp.Core.pdb
+/tmp/gqp-build/linux-x64/gqp-mcp

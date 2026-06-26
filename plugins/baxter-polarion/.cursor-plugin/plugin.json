@@ -1,8 +1,8 @@
 {
   "name": "baxter-polarion",
   "displayName": "Baxter Polarion",
-  "version": "0.1.2",
-  "description": "Vendored Polarion MCP server with cross-platform Linux and Windows launchers. Credentials via ~/.config/polarion-mcp.env.",
+  "version": "0.2.0",
+  "description": "Vendored Polarion MCP server with cross-platform Linux, Windows, and macOS launchers. Credentials via ~/.config/polarion-mcp.env.",
   "author": {
     "name": "Baxter Engineering"
   },

@@ -1,0 +1,21 @@
+{
+  "name": "baxter-ux",
+  "displayName": "Baxter UX / Nexus DLS",
+  "version": "0.1.0",
+  "description": "Baxter Nexus Design Language System: Zero Height exports, Figma reference, and scoped UI rules for web implementation.",
+  "author": {
+    "name": "Baxter Engineering"
+  },
+  "license": "MIT",
+  "keywords": [
+    "baxter",
+    "ux",
+    "dls",
+    "nexus",
+    "design-system",
+    "zeroheight",
+    "figma"
+  ],
+  "skills": "./skills/",
+  "rules": "./rules/"
+}

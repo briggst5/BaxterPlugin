@@ -1,0 +1,13 @@
+/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/bin/Release/net8.0/GqpMcp.Core.deps.json
+/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/bin/Release/net8.0/GqpMcp.Core.dll
+/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/bin/Release/net8.0/GqpMcp.Core.pdb
+/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/obj/Release/net8.0/GqpMcp.Core.csproj.AssemblyReference.cache
+/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/obj/Release/net8.0/GqpMcp.Core.GeneratedMSBuildEditorConfig.editorconfig
+/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/obj/Release/net8.0/GqpMcp.Core.AssemblyInfoInputs.cache
+/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/obj/Release/net8.0/GqpMcp.Core.AssemblyInfo.cs
+/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/obj/Release/net8.0/GqpMcp.Core.csproj.CoreCompileInputs.cache
+/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/obj/Release/net8.0/GqpMcp.Core.sourcelink.json
+/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/obj/Release/net8.0/GqpMcp.Core.dll
+/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/obj/Release/net8.0/refint/GqpMcp.Core.dll
+/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/obj/Release/net8.0/GqpMcp.Core.pdb
+/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Core/obj/Release/net8.0/ref/GqpMcp.Core.dll

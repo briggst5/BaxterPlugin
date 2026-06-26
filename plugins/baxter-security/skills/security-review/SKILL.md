@@ -14,8 +14,9 @@ Auth changes, new API endpoints, crypto, PII handling, or pre-release security c
 1. Map trust boundaries and all external inputs.
 2. Verify authn/authz on sensitive operations.
 3. Scan for secrets in code, logs, and config.
-4. Check injection, SSRF, path traversal, and unsafe deserialization.
-5. Flag new dependencies with known CVEs.
+4. Check injection, SSRF, path traversal, and unsafe deserialization (see `cwe-code-analysis`).
+5. Flag new dependencies with known CVEs (`dependency-security-audit`, `sbom-cve-triage`).
+6. For design-level gaps, sketch threats with `threat-model-sketch`.
 
 ## Output format
 

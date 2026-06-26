@@ -1,0 +1,60 @@
+---
+description: Require verified GQP/GQT citations when answering compliance and quality-system questions via gqp-knowledge MCP
+alwaysApply: false
+---
+
+# GQP Compliance Citations
+
+Activate when the user asks about Baxter **GQP/GQT** procedures, quality-system obligations, regulatory evidence, V&V, risk management, cybersecurity tasks, deliverables, change impact, or PDLM planning.
+
+## Source of truth
+
+Authoritative answers come from **GQP/GQT documents** retrieved through the **gqp-knowledge** MCP server — not from model memory or generic regulatory guidance alone.
+
+Pair with Polarion for **project-specific requirements** (`ado-polarion-boundary.mdc`). GQP holds the corporate QMS; Polarion holds product SRS and traceability.
+
+## Required workflow
+
+1. **Query first** — call an appropriate GQP MCP tool before stating requirements:
+   | Question type | Tool |
+   |---------------|------|
+   | General search / unknown procedure | `search_gqp_documents` |
+   | V&V / testing obligations | `find_testing_requirements` |
+   | Risk management tasks | `find_risk_mitigations` |
+   | Cybersecurity controls | `find_security_tasks` |
+   | Records and deliverables | `find_required_deliverables` |
+   | Design or process change | `assess_change_impact` |
+   | Phase-gate / project plan | `build_project_plan` |
+2. **Cite every requirement** — each stated obligation must include:
+   - Document ID (e.g. `GQP-1234` or `GQT-5678`)
+   - Revision (when returned)
+   - Section heading and page (when returned)
+3. **Separate fact from inference** — label synthesized summaries as *interpretation* when the MCP output is paraphrased; quote or closely paraphrase with citation when stating a *shall* obligation.
+4. **Report gaps** — if search returns no hits or insufficient context, say so; do not invent procedure numbers, section refs, or requirements.
+
+## Citation format
+
+Use a consistent inline or footnote style:
+
+> **GQP-1234** Rev 3 — §5.2 Design Verification (p. 12): *The design verification report shall include…*
+
+For lists, prefix each item with `[GQP-xxxx Rev n §section]`.
+
+## Reviewing existing text
+
+When checking user-provided claims, SOPs, plans, or ADO/Polarion content against GQP:
+
+1. Extract each compliance claim (procedure ref, deliverable, activity, gate).
+2. Verify with `search_gqp_documents` or the specialized tool for that procedure ID.
+3. Tag findings:
+   - **Verified** — MCP excerpt supports the claim with matching doc_id/section
+   - **Unsupported** — no matching requirement in retrieved excerpts
+   - **Outdated** — revision in claim differs from indexed revision (flag for human check)
+   - **Overstated** — claim adds obligations not present in source text
+
+## Never
+
+- Present FDA, ISO, or IEC guidance as Baxter GQP policy without a GQP/GQT citation
+- Fabricate document IDs, revisions, or section numbers
+- Treat MCP synthesis as audit-ready evidence without showing underlying citations
+- Update Polarion or ADO work items unless the user explicitly approves
