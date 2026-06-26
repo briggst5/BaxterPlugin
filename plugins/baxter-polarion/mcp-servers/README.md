@@ -6,7 +6,7 @@ MCP server for Polarion ALM using SOAP/WSDL services.
 
 - Runtime: `.NET 8`
 - Transport: MCP stdio
-- Platforms (v1): `win-x64`, `linux-x64`
+- Platforms (v1): `win-x64`, `linux-x64`, `osx-x64`, `osx-arm64`
 - API surface: Polarion SOAP only (no REST)
 
 ## Repository Layout
@@ -61,16 +61,17 @@ dotnet test dotnet/PolarionMcp.Client.Tests/PolarionMcp.Client.Tests.csproj -c R
 dotnet run --project dotnet/PolarionMcp.Server/PolarionMcp.Server.csproj -c Release
 ```
 
-For binary deployment, publish:
+For binary deployment, publish for the target runtime identifier (RID). Supported
+RIDs: `win-x64`, `linux-x64`, `osx-x64` (Intel Macs), `osx-arm64` (Apple Silicon).
 
 ```bash
 dotnet publish dotnet/PolarionMcp.Server/PolarionMcp.Server.csproj \
   -c Release \
-  -r linux-x64 \
+  -r osx-arm64 \
   --self-contained true \
   -p:PublishSingleFile=true \
   -p:AssemblyName=polarion-mcp \
-  -o artifacts/linux-x64
+  -o artifacts/osx-arm64
 ```
 
 ## Configuration
