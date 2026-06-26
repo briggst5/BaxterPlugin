@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.4.0
+
+- Auth model now mirrors the Baxter CFCT tool: ambient Entra identity (Windows SSO/WAM, Visual Studio, or Azure CLI) → Key Vault (`kv-flc-copilot`) for backend API keys
+- No custom IT Entra app, client secret, or per-user consent prompt; access governed by `Key Vault Secrets User` RBAC on the vault
+- First successful read caches keys locally (`~/.config/gqp-mcp.secrets.json`, owner-only); later sessions need no sign-in
+- Auto-recovery: backend 401/403 flushes the cached keys and retries sign-in
+- Browser sign-in uses an in-memory token cache to avoid WSL `libsecret` failures
+- Fixed TLS CA loading for corporate proxy chains (`CreateFromPem`)
+- Removed `GQP_AUTH_MODE`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, `AZURE_REDIRECT_URI` from config
+- Rebuilt bundled binaries for linux-x64, osx-arm64, osx-x64, win-x64
+
 ## 0.3.2
 
 - Enable single-file compression on bundled gqp-mcp binaries (~72 MB → ~37 MB per platform)

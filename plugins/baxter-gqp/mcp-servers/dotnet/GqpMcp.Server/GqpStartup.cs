@@ -21,43 +21,43 @@ public static class GqpStartup
         }
 
         var hint = string.IsNullOrWhiteSpace(options.KeyVaultName)
-            ? "Entra sign-in required (device-code or az login)."
-            : "Entra sign-in required to read Key Vault secrets (device-code or az login).";
+            ? "Entra sign-in required."
+            : "Entra sign-in required to read Key Vault secrets.";
         Console.Error.WriteLine($"GQP MCP: no valid Entra token found. {hint}");
-        Console.Error.WriteLine("  Run: gqp-mcp authenticate --device-code");
-        Console.Error.WriteLine("  Or:  az login");
+        Console.Error.WriteLine("  Run: gqp-mcp authenticate");
+        Console.Error.WriteLine("  (Uses your Windows/Entra sign-in or Azure CLI; opens a browser only if needed.)");
         return 1;
     }
 
     public static async Task<int> RunAuthenticateAsync(string[] args)
     {
         var useDeviceCode = args.Contains("--device-code", StringComparer.OrdinalIgnoreCase);
-        var useBrowser = args.Contains("--browser", StringComparer.OrdinalIgnoreCase);
 
         var options = LoadOptions();
-        if (useBrowser)
-        {
-            Environment.SetEnvironmentVariable("GQP_AUTH_MODE", "browser");
-            options = GqpOptions.FromEnvironment();
-        }
 
-        var authMode = GqpCredentialFactory.ResolveAuthMode(options, useDeviceCode);
         Console.Error.WriteLine($"INFO: {GqpHttpTransport.DescribeTlsConfig(options)}");
-        Console.Error.WriteLine($"INFO: auth mode: {authMode}");
-
-        var credential = GqpCredentialFactory.CreateInteractiveTokenCredential(options, useDeviceCode: useDeviceCode);
 
         try
         {
-            await GqpCredentialFactory.WarmUpAsync(options, credential, CancellationToken.None);
+            if (await GqpCredentialFactory.HasValidTokenAsync(options, CancellationToken.None))
+            {
+                Console.Error.WriteLine("GQP MCP: already authenticated (cached token reused; no sign-in needed).");
+            }
+            else
+            {
+                await GqpCredentialFactory.AuthenticateAndPersistAsync(options, useDeviceCode, CancellationToken.None);
+            }
 
             if (!string.IsNullOrWhiteSpace(options.KeyVaultName))
             {
-                await GqpSecretsBootstrapper.LoadKeyVaultSecretsAsync(
+                var credential = GqpCredentialFactory.CreateRuntimeTokenCredential(options);
+                await GqpSecretsBootstrapper.EnsureSecretsAsync(
                     options,
                     credential,
                     logger: null,
                     CancellationToken.None);
+                Console.Error.WriteLine(
+                    "INFO: backend API keys cached locally; future sessions need no sign-in.");
             }
             else
             {
@@ -65,7 +65,8 @@ public static class GqpStartup
                     "INFO: GQP_KEYVAULT_NAME unset; using Entra RBAC for Azure Search and OpenAI.");
             }
 
-            Console.Error.WriteLine("GQP MCP authentication successful. Token cached for Azure services.");
+            Console.Error.WriteLine(
+                "GQP MCP authentication successful. Sign-in persisted; future sessions are silent until token expiry.");
             return 0;
         }
         catch (Exception ex)

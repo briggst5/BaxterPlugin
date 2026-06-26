@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GqpMcp.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7d747c156c7e832378cf24b18e885875d0045cb9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+601282141c96f869b1dc3ae3d9702022332fb75d")]
 [assembly: System.Reflection.AssemblyProductAttribute("GqpMcp.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GqpMcp.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

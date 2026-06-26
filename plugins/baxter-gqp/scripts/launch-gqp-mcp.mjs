@@ -6,7 +6,9 @@
  * - Requires vendored self-contained binary under bin/<rid>/gqp-mcp[.exe]
  * - Never builds or compiles on user machines
  *
- * On first use: creates ~/.config/gqp-mcp.env and runs device-code Baxter SSO.
+ * On first use: creates ~/.config/gqp-mcp.env and runs Baxter SSO via the
+ * ambient Entra identity (Windows SSO, Azure CLI) with browser fallback,
+ * then caches Key Vault keys locally so later sessions authenticate silently.
  */
 import { spawnSync } from "node:child_process";
 import { chmodSync, copyFileSync, existsSync, mkdirSync } from "node:fs";
@@ -96,10 +98,10 @@ function ensureAuthenticated(binary) {
     return;
   }
 
-  console.error("GQP MCP: Baxter sign-in required.");
-  console.error("  A device code will appear below — open https://microsoft.com/devicelogin and enter it.");
-  console.error("  Or run once in a terminal: az login");
-  if (runSubcommand(binary, "authenticate", ["--device-code"]) !== 0) {
+  console.error("GQP MCP: Baxter sign-in required (one time).");
+  console.error("  A browser window will open for Baxter sign-in.");
+  console.error("  (If no browser is available, a device code appears in these logs.)");
+  if (runSubcommand(binary, "authenticate") !== 0) {
     console.error("GQP MCP authentication failed. See messages above.");
     process.exit(1);
   }

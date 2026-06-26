@@ -41,7 +41,7 @@ public static class GqpHttpTransport
             return handler;
         }
 
-        var trustedCa = X509Certificate2.CreateFromPemFile(caFile);
+        var trustedCa = X509Certificate2.CreateFromPem(File.ReadAllText(caFile));
         handler.ServerCertificateCustomValidationCallback = (_, cert, _, errors) =>
             ValidateServerCertificate(cert, errors, trustedCa);
 

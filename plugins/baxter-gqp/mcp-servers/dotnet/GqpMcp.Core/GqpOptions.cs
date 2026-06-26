@@ -10,7 +10,6 @@ public sealed class GqpOptions
     public const string EmbeddingDeployment = "text-embedding-3-large";
     public const string GptDeployment = "gpt-4.1";
     public const int DefaultTopK = 8;
-    public const string DefaultRedirectUri = "http://localhost";
 
     public string SearchEndpoint { get; init; } = DefaultSearchEndpoint;
     public string EmbedEndpoint { get; init; } = DefaultEmbedEndpoint;
@@ -18,9 +17,6 @@ public sealed class GqpOptions
     public string ApiVersion { get; init; } = DefaultApiVersion;
     public string? KeyVaultName { get; init; }
     public string? AzureTenantId { get; init; }
-    public string? AzureClientId { get; init; }
-    public string AzureRedirectUri { get; init; } = DefaultRedirectUri;
-    public GqpAuthMode AuthMode { get; init; } = GqpAuthMode.Auto;
     public string? SearchKey { get; init; }
     public string? OpenAiKey { get; init; }
     public string? GptKey { get; init; }
@@ -38,9 +34,6 @@ public sealed class GqpOptions
             ApiVersion = GetEnv("AZURE_OPENAI_API_VERSION") ?? DefaultApiVersion,
             KeyVaultName = GetEnv("GQP_KEYVAULT_NAME"),
             AzureTenantId = GetEnv("AZURE_TENANT_ID"),
-            AzureClientId = GetEnv("AZURE_CLIENT_ID"),
-            AzureRedirectUri = GetEnv("AZURE_REDIRECT_URI") ?? DefaultRedirectUri,
-            AuthMode = ParseAuthMode(GetEnv("GQP_AUTH_MODE")),
             SearchKey = GetEnv("AZURE_SEARCH_KEY"),
             OpenAiKey = GetEnv("AZURE_OPENAI_KEY"),
             GptKey = GetEnv("AZURE_GPT_KEY") ?? GetEnv("AZURE_OPENAI_KEY"),
@@ -52,16 +45,6 @@ public sealed class GqpOptions
 
     private static string? GetEnv(string key) =>
         Environment.GetEnvironmentVariable(key) is { Length: > 0 } value ? value : null;
-
-    private static GqpAuthMode ParseAuthMode(string? raw) =>
-        raw?.Trim().ToLowerInvariant() switch
-        {
-            "browser" => GqpAuthMode.Browser,
-            "device-code" or "devicecode" => GqpAuthMode.DeviceCode,
-            "auto" or null or "" => GqpAuthMode.Auto,
-            _ => throw new InvalidOperationException(
-                "GQP_AUTH_MODE must be auto, device-code, or browser."),
-        };
 
     private static bool ParseBooleanEnv(string key, bool defaultValue)
     {

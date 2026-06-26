@@ -1,18 +1,18 @@
 # Baxter GQP Knowledge Plugin
 
-Standalone plugin for **GQP Knowledge MCP** — hybrid RAG search over Baxter GQP/GQT documents, plus skills and rules for **compliance Q&A with verified citations**.
+Standalone plugin for **GQP Knowledge MCP** â€” hybrid RAG search over Baxter GQP/GQT documents, plus skills and rules for **compliance Q&A with verified citations**.
 
 | | |
 |--|--|
 | **Audience** | Quality, regulatory, engineering leads, compliance reviewers |
 | **Install guide** | [docs/INSTALL.md](docs/INSTALL.md) (Linux, macOS, Windows) |
-| **Not related to** | Polarion MCP — ships its own `gqp-mcp` .NET binary |
+| **Not related to** | Polarion MCP â€” ships its own `gqp-mcp` .NET binary |
 
 ## Quick start
 
 1. Install **baxter-gqp** from marketplace.
-2. Enable **gqp-knowledge** in Cursor ? Settings ? MCP.
-3. Complete Baxter **device code sign-in** on first use (MCP logs).
+2. Enable **gqp-knowledge** in Cursor â†’ Settings â†’ MCP.
+3. Complete the Baxter **browser sign-in** on first use (a browser window opens automatically).
 4. Try: *"What deliverables are required if we change the sterilization method?"*
 
 Pair with **baxter-product-owner** when answers must also trace to Polarion requirements or ADO delivery items.
@@ -51,7 +51,9 @@ Pair with **baxter-product-owner** when answers must also trace to Polarion requ
 
 ## Authentication
 
-End users authenticate with **Entra RBAC** via device code — no custom IT Entra app required for typical use.
+Authentication mirrors the Baxter CFCT tool: the MCP signs in to **Entra** using your **ambient Baxter identity** (Windows SSO/WAM, Visual Studio, or the Azure CLI) and reads the backend API keys from **Azure Key Vault** (`kv-flc-copilot`). There is no custom IT Entra app, no client secret, and no per-user consent prompt â€” access is governed by your Azure RBAC on the vault (`Key Vault Secrets User`).
+
+On first use a browser window opens for sign-in. After the first successful read, keys are cached locally (`~/.config/gqp-mcp.secrets.json`, owner-only) so later sessions need no sign-in. If backend access later fails (e.g. rotated keys), the cache is flushed and sign-in is retried automatically.
 
 Optional config: `~/.config/gqp-mcp.env` (non-secret settings only).
 
@@ -60,6 +62,8 @@ Optional config: `~/.config/gqp-mcp.env` (non-secret settings only).
 | OS | Path |
 |----|------|
 | Linux | `bin/linux-x64/gqp-mcp` |
+| macOS (Apple Silicon) | `bin/osx-arm64/gqp-mcp` |
+| macOS (Intel) | `bin/osx-x64/gqp-mcp` |
 | Windows | `bin/win-x64/gqp-mcp.exe` |
 
 ## Example prompts

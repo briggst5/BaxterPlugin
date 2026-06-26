@@ -47,7 +47,7 @@ public sealed class GqpKnowledgeService
 
             await WithTlsHelpAsync(async () =>
             {
-                await GqpSecretsBootstrapper.LoadKeyVaultSecretsAsync(
+                await GqpSecretsBootstrapper.EnsureSecretsAsync(
                     _options,
                     _tokenCredential,
                     _logger,
@@ -74,6 +74,63 @@ public sealed class GqpKnowledgeService
             throw new InvalidOperationException(GqpHttpTransport.CertificateErrorHelp(_options), ex);
         }
     }
+
+    /// <summary>
+    /// Runs a backend operation with both TLS-error help and auth recovery. If the call is
+    /// rejected for authentication/authorization (e.g. the cached Key Vault keys were rotated
+    /// or revoked), the local secret cache is flushed and re-fetched from Key Vault - forcing
+    /// a fresh sign-in when the Entra token is also gone - then the operation is retried once.
+    /// </summary>
+    private async Task<T> WithResilienceAsync<T>(Func<Task<T>> action)
+    {
+        try
+        {
+            return await WithTlsHelpAsync(action);
+        }
+        catch (Exception ex) when (IsAuthFailure(ex))
+        {
+            _logger.LogWarning(
+                ex,
+                "Backend rejected request ({Status}); flushing cached keys and forcing re-auth",
+                AuthFailureStatus(ex));
+            await ReloadSecretsAsync(CancellationToken.None);
+            return await WithTlsHelpAsync(action);
+        }
+    }
+
+    private async Task ReloadSecretsAsync(CancellationToken cancellationToken)
+    {
+        await _initLock.WaitAsync(cancellationToken);
+        try
+        {
+            await WithTlsHelpAsync(async () =>
+            {
+                await GqpSecretsBootstrapper.EnsureSecretsAsync(
+                    _options,
+                    _tokenCredential,
+                    _logger,
+                    cancellationToken,
+                    forceRefresh: true);
+                return 0;
+            });
+            _options = GqpOptions.FromEnvironment();
+            _secretsLoaded = true;
+        }
+        finally
+        {
+            _initLock.Release();
+        }
+    }
+
+    private static bool IsAuthFailure(Exception ex) =>
+        AuthFailureStatus(ex) is 401 or 403;
+
+    private static int? AuthFailureStatus(Exception ex) => ex switch
+    {
+        Azure.RequestFailedException rfe => rfe.Status,
+        System.ClientModel.ClientResultException cre => cre.Status,
+        _ => null,
+    };
 
     public async Task<string> SearchDocumentsAsync(
         string query,
@@ -179,7 +236,7 @@ public sealed class GqpKnowledgeService
         string? filterExpr,
         string chunkLevel,
         CancellationToken cancellationToken) =>
-        WithTlsHelpAsync(async () =>
+        WithResilienceAsync(async () =>
         {
             await EnsureReadyAsync(cancellationToken);
             var searchClient = CreateSearchClient();
@@ -225,8 +282,9 @@ public sealed class GqpKnowledgeService
         });
 
     private Task<ReadOnlyMemory<float>> EmbedAsync(string text, CancellationToken cancellationToken) =>
-        WithTlsHelpAsync(async () =>
+        WithResilienceAsync(async () =>
         {
+            await EnsureReadyAsync(cancellationToken);
             var client = CreateOpenAiClient(_options.EmbedEndpoint, _options.OpenAiKey);
             var embeddingClient = client.GetEmbeddingClient(GqpOptions.EmbeddingDeployment);
             var response = await embeddingClient.GenerateEmbeddingsAsync([text], cancellationToken: cancellationToken);
@@ -238,8 +296,9 @@ public sealed class GqpKnowledgeService
         string context,
         string question,
         CancellationToken cancellationToken) =>
-        WithTlsHelpAsync(async () =>
+        WithResilienceAsync(async () =>
         {
+            await EnsureReadyAsync(cancellationToken);
             var client = CreateOpenAiClient(_options.GptEndpoint, _options.GptKey);
         var chatClient = client.GetChatClient(GqpOptions.GptDeployment);
         var messages = new List<ChatMessage>

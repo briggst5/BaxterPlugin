@@ -31,4 +31,4 @@ try {
   // Windows may not support chmod; ignore.
 }
 console.log(`Created ${target}`);
-console.log("Enable gqp-knowledge in Cursor MCP settings — browser sign-in runs automatically on first use.");
+console.log("Enable gqp-knowledge in Cursor MCP settings â€” browser sign-in runs automatically on first use.");

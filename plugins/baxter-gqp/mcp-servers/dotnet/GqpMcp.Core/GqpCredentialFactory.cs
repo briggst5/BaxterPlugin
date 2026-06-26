@@ -3,6 +3,16 @@ using Azure.Identity;
 
 namespace GqpMcp.Core;
 
+/// <summary>
+/// Builds the Entra credential used to read Key Vault (and, when no Key Vault is configured,
+/// the Search/OpenAI data planes directly).
+///
+/// Mirrors the proven CFCT pattern: <see cref="DefaultAzureCredential"/> with interactive
+/// credentials enabled. This uses the user's ambient Entra identity - Windows WAM/SSO, Visual
+/// Studio, or the Azure CLI - and only falls back to an interactive browser via Microsoft's
+/// pre-consented client. There is deliberately no custom app registration, client secret, or
+/// per-user consent: access is governed entirely by the caller's Azure RBAC on the resources.
+/// </summary>
 public static class GqpCredentialFactory
 {
     private const string VaultScope = "https://vault.azure.net/.default";
@@ -10,62 +20,80 @@ public static class GqpCredentialFactory
     private const string SearchScope = "https://search.azure.com/.default";
 
     /// <summary>
-    /// For MCP stdio runtime ù Azure CLI, IDE login, then browser cache as last resort.
+    /// Runtime credential for the MCP server. Interactive is enabled so that, on a machine with
+    /// no ambient login, a one-time browser sign-in can still unlock Key Vault.
     /// </summary>
-    public static TokenCredential CreateRuntimeTokenCredential(GqpOptions options)
-    {
-        var chain = new List<TokenCredential>
-        {
-            new AzureCliCredential(),
-            new DefaultAzureCredential(new DefaultAzureCredentialOptions
-            {
-                ExcludeManagedIdentityCredential = true,
-                ExcludeInteractiveBrowserCredential = true,
-            }),
-        };
-
-        if (ShouldIncludeBrowserCredential(options))
-        {
-            chain.Add(CreateBrowserCredential(options));
-        }
-
-        return new ChainedTokenCredential(chain.ToArray());
-    }
+    public static TokenCredential CreateRuntimeTokenCredential(GqpOptions options) =>
+        CreateDefaultCredential(options, includeInteractive: true);
 
     /// <summary>
-    /// For `gqp-mcp authenticate` ù Azure CLI, device-code, DAC, then browser last.
+    /// Credential for the explicit `authenticate` subcommand. Same as runtime; the
+    /// <paramref name="useDeviceCode"/> flag is accepted for CLI compatibility but ignored,
+    /// since DefaultAzureCredential selects the best available method automatically.
     /// </summary>
-    public static TokenCredential CreateInteractiveTokenCredential(GqpOptions options, bool useDeviceCode = false)
+    public static TokenCredential CreateInteractiveTokenCredential(GqpOptions options, bool useDeviceCode = false) =>
+        CreateDefaultCredential(options, includeInteractive: true);
+
+    private static TokenCredential CreateDefaultCredential(GqpOptions options, bool includeInteractive)
     {
-        var mode = ResolveAuthMode(options, useDeviceCode);
-        var chain = new List<TokenCredential> { new AzureCliCredential() };
-
-        if (mode is GqpAuthMode.DeviceCode or GqpAuthMode.Auto)
-        {
-            chain.Add(CreateDeviceCodeCredential(options));
-        }
-
-        chain.Add(new DefaultAzureCredential(new DefaultAzureCredentialOptions
+        // Silent/ambient providers: Azure CLI, Windows WAM/SSO, Visual Studio, shared token
+        // cache. These cover the common cases (CFCT relies on exactly these) and are safe on
+        // WSL/Linux. Interactive browser is excluded here because DefaultAzureCredential's
+        // built-in browser tries to persist to the OS keyring (libsecret), which is absent on
+        // Baxter WSL and throws "Persistence check failed".
+        var silentOptions = new DefaultAzureCredentialOptions
         {
             ExcludeManagedIdentityCredential = true,
             ExcludeInteractiveBrowserCredential = true,
-        }));
+            Transport = GqpHttpTransport.CreateAzureTransport(options),
+        };
 
-        if (mode is GqpAuthMode.Browser or GqpAuthMode.Auto)
+        if (!string.IsNullOrWhiteSpace(options.AzureTenantId))
         {
-            chain.Add(CreateBrowserCredential(options));
+            silentOptions.TenantId = options.AzureTenantId;
+            silentOptions.SharedTokenCacheTenantId = options.AzureTenantId;
+            silentOptions.VisualStudioTenantId = options.AzureTenantId;
         }
 
-        return new ChainedTokenCredential(chain.ToArray());
+        var silent = new DefaultAzureCredential(silentOptions);
+
+        if (!includeInteractive)
+        {
+            return silent;
+        }
+
+        // Interactive fallback for a machine with no ambient login. No custom ClientId, so it
+        // uses Microsoft's pre-consented client (no custom-app admin-consent wall), and an
+        // in-memory token cache (no libsecret dependency). Re-prompting is a non-issue because
+        // the fetched Key Vault keys are cached locally after the first success.
+        var browserOptions = new InteractiveBrowserCredentialOptions
+        {
+            Transport = GqpHttpTransport.CreateAzureTransport(options),
+        };
+
+        if (!string.IsNullOrWhiteSpace(options.AzureTenantId))
+        {
+            browserOptions.TenantId = options.AzureTenantId;
+        }
+
+        return new ChainedTokenCredential(silent, new InteractiveBrowserCredential(browserOptions));
     }
 
-    public static async Task<bool> HasValidTokenAsync(
-        GqpOptions options,
-        CancellationToken cancellationToken)
+    /// <summary>
+    /// Silent check used by `check-auth`: never prompts. Returns true if the backend keys are
+    /// already cached locally, or if a token can be acquired without interaction.
+    /// </summary>
+    public static async Task<bool> HasValidTokenAsync(GqpOptions options, CancellationToken cancellationToken)
     {
+        // Once the backend keys are cached locally, no Entra token is needed at all.
+        if (GqpSecretsBootstrapper.HasCachedSecrets(options))
+        {
+            return true;
+        }
+
         try
         {
-            var credential = CreateRuntimeTokenCredential(options);
+            var credential = CreateDefaultCredential(options, includeInteractive: false);
             foreach (var scope in GetWarmUpScopes(options))
             {
                 await credential.GetTokenAsync(new TokenRequestContext([scope]), cancellationToken);
@@ -79,6 +107,20 @@ public static class GqpCredentialFactory
         }
     }
 
+    /// <summary>
+    /// Acquires a token (interactively if needed) and warms up the required scopes. With
+    /// DefaultAzureCredential there is no AuthenticationRecord to persist - the underlying
+    /// credential providers (WAM, az, MSAL cache) handle their own token persistence.
+    /// </summary>
+    public static async Task AuthenticateAndPersistAsync(
+        GqpOptions options,
+        bool useDeviceCode,
+        CancellationToken cancellationToken)
+    {
+        var credential = CreateDefaultCredential(options, includeInteractive: true);
+        await WarmUpAsync(options, credential, cancellationToken);
+    }
+
     public static async Task WarmUpAsync(GqpOptions options, TokenCredential credential, CancellationToken cancellationToken)
     {
         foreach (var scope in GetWarmUpScopes(options))
@@ -89,78 +131,15 @@ public static class GqpCredentialFactory
 
     public static IReadOnlyList<string> GetWarmUpScopes(GqpOptions options)
     {
-        var scopes = new List<string>();
+        // Key Vault mode: Entra is only used to read the backend API keys from Key Vault.
+        // The keys (not Entra) then authenticate to Search/OpenAI, so the vault scope is all
+        // that is ever requested.
         if (!string.IsNullOrWhiteSpace(options.KeyVaultName))
         {
-            scopes.Add(VaultScope);
+            return new[] { VaultScope };
         }
 
-        scopes.Add(CognitiveServicesScope);
-        scopes.Add(SearchScope);
-        return scopes;
+        // No Key Vault: fall back to direct Entra RBAC against the data planes.
+        return new[] { CognitiveServicesScope, SearchScope };
     }
-
-    public static GqpAuthMode ResolveAuthMode(GqpOptions options, bool deviceCodeFlag)
-    {
-        if (deviceCodeFlag)
-        {
-            return GqpAuthMode.DeviceCode;
-        }
-
-        return options.AuthMode switch
-        {
-            GqpAuthMode.Browser => GqpAuthMode.Browser,
-            GqpAuthMode.DeviceCode => GqpAuthMode.DeviceCode,
-            _ when string.IsNullOrWhiteSpace(options.AzureClientId) => GqpAuthMode.DeviceCode,
-            _ => GqpAuthMode.Auto,
-        };
-    }
-
-    private static bool ShouldIncludeBrowserCredential(GqpOptions options) =>
-        options.AuthMode is GqpAuthMode.Browser or GqpAuthMode.Auto
-        && !string.IsNullOrWhiteSpace(options.AzureClientId);
-
-    private static DeviceCodeCredential CreateDeviceCodeCredential(GqpOptions options)
-    {
-        var deviceOptions = new DeviceCodeCredentialOptions
-        {
-            TenantId = options.AzureTenantId,
-            DeviceCodeCallback = (code, cancellation) =>
-            {
-                Console.Error.WriteLine();
-                Console.Error.WriteLine("GQP MCP: Baxter sign-in required.");
-                Console.Error.WriteLine($"  Open {code.VerificationUri} in your browser");
-                Console.Error.WriteLine($"  Enter code: {code.UserCode}");
-                Console.Error.WriteLine("  (Also visible in Cursor Settings ? MCP ? gqp-knowledge logs)");
-                Console.Error.WriteLine();
-                return Task.CompletedTask;
-            },
-        };
-
-        if (!string.IsNullOrWhiteSpace(options.AzureClientId))
-        {
-            deviceOptions.ClientId = options.AzureClientId;
-        }
-
-        return new DeviceCodeCredential(deviceOptions);
-    }
-
-    private static InteractiveBrowserCredential CreateBrowserCredential(GqpOptions options)
-    {
-        var browserOptions = new InteractiveBrowserCredentialOptions
-        {
-            TenantId = options.AzureTenantId,
-            ClientId = options.AzureClientId,
-            RedirectUri = new Uri(options.AzureRedirectUri),
-        };
-
-        return new InteractiveBrowserCredential(browserOptions);
-    }
-}
-
-public enum GqpAuthMode
-{
-    Auto,
-    Browser,
-    DeviceCode,
 }

@@ -3649,7 +3649,7 @@
     ]
   },
   "packageFolders": {
-    "/tmp/cursor-sandbox-cache/44d1cb0d141bef4c6a0cca7625535837/nuget": {}
+    "/tmp/cursor-sandbox-cache/d90addabb9599c9038605869e66a6ce5/nuget": {}
   },
   "project": {
     "version": "1.0.0",
@@ -3657,7 +3657,7 @@
       "projectUniqueName": "/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Server/GqpMcp.Server.csproj",
       "projectName": "gqp-mcp",
       "projectPath": "/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Server/GqpMcp.Server.csproj",
-      "packagesPath": "/tmp/cursor-sandbox-cache/44d1cb0d141bef4c6a0cca7625535837/nuget",
+      "packagesPath": "/tmp/cursor-sandbox-cache/d90addabb9599c9038605869e66a6ce5/nuget",
       "outputPath": "/home/briggst5/research/BaxterPlugin/plugins/baxter-gqp/mcp-servers/dotnet/GqpMcp.Server/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [

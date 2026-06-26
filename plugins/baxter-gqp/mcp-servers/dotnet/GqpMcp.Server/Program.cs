@@ -29,7 +29,7 @@ if (!GqpEnvFileLoader.ConfigFileExists())
     Console.Error.WriteLine("GQP MCP is not configured.");
     Console.Error.WriteLine($"Create {GqpEnvFileLoader.ConfigPath} (see gqp-mcp.env.example).");
     Console.Error.WriteLine("Quick setup: node scripts/setup-gqp-env.mjs");
-    Console.Error.WriteLine("Or enable gqp-knowledge in Cursor MCP — the launcher creates config automatically.");
+    Console.Error.WriteLine("Or enable gqp-knowledge in Cursor MCP â€” the launcher creates config automatically.");
     Environment.Exit(1);
 }
 
