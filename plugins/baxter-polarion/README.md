@@ -1,6 +1,6 @@
 # Baxter Polarion
 
-Standalone plugin for the vendored **Polarion MCP** server — Linux and Windows, bundled binaries, no end-user compile.
+Standalone plugin for the vendored **Polarion MCP** server — Linux, Windows, and macOS, bundled binaries, no end-user compile.
 
 | | |
 |--|--|
@@ -27,6 +27,8 @@ Enable **polarion-mcp** in Cursor → Settings → MCP.
 | Launcher | `scripts/launch-polarion-mcp.mjs` |
 | Linux binary | `bin/linux-x64/polarion-mcp` |
 | Windows binary | `bin/win-x64/polarion-mcp.exe` |
+| macOS Intel binary | `bin/osx-x64/polarion-mcp` |
+| macOS Apple Silicon binary | `bin/osx-arm64/polarion-mcp` |
 
 Server starts immediately from the bundled executable.
 

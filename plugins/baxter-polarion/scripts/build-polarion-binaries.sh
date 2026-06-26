@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build self-contained .NET Polarion MCP binaries for Linux and Windows.
+# Build self-contained .NET Polarion MCP binaries for Linux, Windows, and macOS.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -34,10 +34,14 @@ publish_rid() {
 
 publish_rid "linux-x64"
 publish_rid "win-x64"
+publish_rid "osx-x64"
+publish_rid "osx-arm64"
 
 echo ""
 echo "Binaries published:"
 echo "  ${ROOT}/bin/linux-x64/polarion-mcp"
 echo "  ${ROOT}/bin/win-x64/polarion-mcp.exe"
+echo "  ${ROOT}/bin/osx-x64/polarion-mcp"
+echo "  ${ROOT}/bin/osx-arm64/polarion-mcp"
 echo ""
 echo "Commit these files so plugin users do not compile locally."

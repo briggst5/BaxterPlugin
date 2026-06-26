@@ -1,6 +1,6 @@
 # Baxter Polarion — Installation
 
-Standalone **Polarion MCP** server with bundled Linux and Windows binaries — no local compile required.
+Standalone **Polarion MCP** server with bundled Linux, Windows, and macOS binaries — no local compile required.
 
 ## Prerequisites
 
@@ -106,6 +106,8 @@ The PAT must allow REST API access for the projects you use with MCP (read work 
 3. Server starts from bundled binary:
    - Linux: `bin/linux-x64/polarion-mcp`
    - Windows: `bin/win-x64/polarion-mcp.exe`
+   - macOS (Intel): `bin/osx-x64/polarion-mcp`
+   - macOS (Apple Silicon): `bin/osx-arm64/polarion-mcp`
 
 ### Manual launcher test
 
@@ -128,7 +130,7 @@ Run Polarion MCP from the same environment as Cursor (WSL or Windows native). St
 
 | Symptom | Fix |
 |---------|-----|
-| Binary not found | Reinstall plugin; confirm `bin/linux-x64` or `bin/win-x64` present |
+| Binary not found | Reinstall plugin; confirm `bin/linux-x64`, `bin/win-x64`, `bin/osx-x64`, or `bin/osx-arm64` present |
 | TLS / certificate errors | Set `POLARION_TLS_CA_FILE` or consult IT for corp Polarion CA |
 | 401 auth | PAT expired (90-day lifetime) — generate new PAT; update `polarion-mcp.env`; see [Generate PAT](#step-2b--generate-a-polarion-personal-access-token-pat) |
 | Tools not in chat | Enable MCP server; reload Cursor |
@@ -137,7 +139,7 @@ Run Polarion MCP from the same environment as Cursor (WSL or Windows native). St
 
 ```bash
 ./scripts/sync-polarion-dotnet.sh      # sync upstream source
-./scripts/build-polarion-binaries.sh   # rebuild bin/linux-x64 and bin/win-x64
+./scripts/build-polarion-binaries.sh   # rebuild bin/{linux-x64,win-x64,osx-x64,osx-arm64}
 ```
 
 Commit updated binaries so users never compile locally.

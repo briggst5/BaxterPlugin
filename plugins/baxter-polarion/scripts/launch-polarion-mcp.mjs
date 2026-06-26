@@ -10,7 +10,7 @@
  */
 import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
-import { homedir, platform } from "node:os";
+import { arch, homedir, platform } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -28,8 +28,18 @@ function isWindows() {
   return platform() === "win32";
 }
 
+function isMac() {
+  return platform() === "darwin";
+}
+
 function rid() {
-  return isWindows() ? "win-x64" : "linux-x64";
+  if (isWindows()) {
+    return "win-x64";
+  }
+  if (isMac()) {
+    return arch() === "arm64" ? "osx-arm64" : "osx-x64";
+  }
+  return "linux-x64";
 }
 
 function binaryName() {
@@ -91,7 +101,7 @@ function main() {
   console.error("Polarion MCP binary is missing from this plugin build.");
   console.error(`Expected bundled binary: ${bundledBinary}`);
   console.error("This plugin does not compile Polarion MCP on the user machine.");
-  console.error("Maintainers must bundle prebuilt binaries for linux-x64 and win-x64.");
+  console.error("Maintainers must bundle prebuilt binaries for linux-x64, win-x64, osx-x64, and osx-arm64.");
   process.exit(1);
 }
 
