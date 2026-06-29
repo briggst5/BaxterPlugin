@@ -29,6 +29,9 @@ cp -r /path/to/upstream/skills/my-skill plugins/baxter-core/skills/my-skill
 4. Bump `version` in the plugin's `.cursor-plugin/plugin.json` and `.plugin/plugin.json`.
 5. Update the plugin `CHANGELOG.md`.
 
+> Adding or removing a whole plugin? Update both marketplace indexes:
+> `.cursor-plugin/marketplace.json` (Cursor) and `.github/plugin/marketplace.json` (VS Code Copilot).
+
 Skills are auto-discovered from `skills/*/SKILL.md` — no manifest edit needed unless you use custom paths.
 
 ## Adding a Python MCP server

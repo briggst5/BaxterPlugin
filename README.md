@@ -54,9 +54,21 @@ Then configure MCP per plugin INSTALL guide, reload Cursor, enable MCP servers i
 
 ## VS Code Copilot rollout
 
-1. Enable `chat.plugins.enabled` in org or user settings.
-2. Add marketplace: `"chat.plugins.marketplaces": ["your-org/BaxterPlugin"]`
-3. Copy [templates/copilot-settings.json](templates/copilot-settings.json) into project templates.
+VS Code discovers this repo as an agent plugin marketplace via
+[.github/plugin/marketplace.json](.github/plugin/marketplace.json). Each plugin
+exposes a VS Code manifest at `<plugin>/.plugin/plugin.json`.
+
+1. Ensure `chat.plugins.enabled` is `true` (managed at the org level; contact your admin if it is disabled).
+2. Add the marketplace in user or workspace `settings.json`:
+
+```json
+"chat.plugins.marketplaces": [
+  "your-org/BaxterPlugin"
+]
+```
+
+3. Open the Extensions view, search `@agentPlugins`, and install the Baxter plugins. The first install from a new marketplace shows a trust prompt.
+4. For team defaults, copy [templates/copilot-settings.json](templates/copilot-settings.json) into `.github/copilot/settings.json` (or `.claude/settings.json`) of consuming projects to recommend the marketplace and enable `baxter-core` by default.
 
 **Note:** Cursor `.mdc` rules are not available in Copilot. Use the `baxter-standards` skill for equivalent guidance.
 
@@ -67,6 +79,10 @@ Skills, MCP, rules, and agents are **vendored into this repo** and committed. Se
 ## Repository layout
 
 ```
+.cursor-plugin/marketplace.json   # Cursor marketplace index
+.github/plugin/marketplace.json   # VS Code Copilot marketplace index
+plugins/baxter-core/              # required core plugin
+plugins/baxter-security/          # optional domain plugin
 .cursor-plugin/marketplace.json   # marketplace index
 docs/getting-started.md           # user onboarding hub
 plugins/                          # one directory per plugin

@@ -121,7 +121,9 @@ validate_plugin() {
     fi
   fi
 
-  python3 - "$cursor_manifest" <<'PY'
+  for manifest in "$cursor_manifest" "$copilot_manifest"; do
+    [[ -f "$manifest" ]] || continue
+    python3 - "$manifest" <<'PY'
 import json
 import sys
 from pathlib import Path
@@ -143,9 +145,10 @@ for key in ("skills", "rules", "agents", "mcpServers", "hooks"):
             print(f"ERROR: Declared path missing in manifest: {rel}", file=sys.__stderr__)
             sys.exit(1)
 PY
-  if [[ $? -ne 0 ]]; then
-    ERRORS=$((ERRORS + 1))
-  fi
+    if [[ $? -ne 0 ]]; then
+      ERRORS=$((ERRORS + 1))
+    fi
+  done
 
   if [[ "${plugin_name}" == "baxter-polarion" ]]; then
     local linux_bin="${plugin_dir}/bin/linux-x64/polarion-mcp"
@@ -159,8 +162,9 @@ PY
   fi
 }
 
-echo "==> Validating marketplace manifest"
+echo "==> Validating Cursor marketplace manifest"
 MARKETPLACE="${ROOT}/.cursor-plugin/marketplace.json"
+COPILOT_MARKETPLACE="${ROOT}/.github/plugin/marketplace.json"
 if [[ ! -f "$MARKETPLACE" ]]; then
   error "Missing ${MARKETPLACE}"
 else
@@ -180,6 +184,40 @@ for p in data.get("plugins", []):
     print(p["source"])
 PY
 )
+fi
+
+echo "==> Validating Copilot (VS Code) marketplace manifest"
+if [[ ! -f "$COPILOT_MARKETPLACE" ]]; then
+  error "Missing ${COPILOT_MARKETPLACE}"
+else
+  check_json "$COPILOT_MARKETPLACE"
+  while IFS= read -r source; do
+    plugin_dir="${ROOT}/${source#./}"
+    if [[ ! -d "$plugin_dir" ]]; then
+      error "Copilot marketplace plugin source not found: ${plugin_dir}"
+    elif [[ ! -f "${plugin_dir}/.plugin/plugin.json" ]]; then
+      error "Copilot manifest missing for marketplace plugin: ${plugin_dir}/.plugin/plugin.json"
+    fi
+  done < <(python3 - "$COPILOT_MARKETPLACE" <<'PY'
+import json, sys
+from pathlib import Path
+data = json.loads(Path(sys.argv[1]).read_text())
+for p in data.get("plugins", []):
+    print(p["source"])
+PY
+)
+
+  if [[ -f "$MARKETPLACE" ]]; then
+    python3 - "$MARKETPLACE" "$COPILOT_MARKETPLACE" <<'PY' || error "Cursor and Copilot marketplaces list different plugins"
+import json, sys
+from pathlib import Path
+cursor = json.loads(Path(sys.argv[1]).read_text())
+copilot = json.loads(Path(sys.argv[2]).read_text())
+cursor_plugins = {p["source"].removeprefix("./") for p in cursor.get("plugins", [])}
+copilot_plugins = {p["source"].removeprefix("./") for p in copilot.get("plugins", [])}
+sys.exit(0 if cursor_plugins == copilot_plugins else 1)
+PY
+  fi
 fi
 
 if [[ $ERRORS -gt 0 ]]; then
