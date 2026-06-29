@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+- Synced PolarionMCP main branch and refreshed bundled linux-x64/win-x64 binaries (upstream `fe0dc9d0252a`)
+
 ## 0.2.0
 
 - Add macOS support: bundled `osx-x64` (Intel) and `osx-arm64` (Apple Silicon) binaries
